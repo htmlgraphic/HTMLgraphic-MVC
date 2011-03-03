@@ -1,0 +1,13 @@
+#! /bin/sh
+#
+# Created by configure
+
+LIBS='-lrt -lpthread ' \
+'./configure' \
+'--disable-option-checking' \
+'--prefix=/usr/local/thrift-0.5.0' \
+'--disable-gen-rb' \
+'--without-ruby' \
+'--cache-file=/dev/null' \
+'--srcdir=.' \
+"$@"
