@@ -62,7 +62,6 @@ class PassinggreenRouter extends SiteRouter
 
 		$member = Session::instance()->getModelDefaultForClassName("Member");
 		Config::set('Member', $member);
-
 		$controller = $this->loadController($controller_path);
 		$controller->activate();
 	}

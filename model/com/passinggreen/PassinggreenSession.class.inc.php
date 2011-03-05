@@ -66,7 +66,10 @@ class PassinggreenSession extends DBObject
 	public static function closedateFilter($close_date, $comparison = null)
 	{
 		if ($comparison)
+		{
 			return array("column" => self::$CLOSE_DATE, "value" => $close_date, "comparison" => $comparison);
+		}
+
 		return array("column" => self::$CLOSE_DATE, "value" => $close_date);
 	}
 

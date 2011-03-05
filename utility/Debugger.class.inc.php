@@ -1,10 +1,11 @@
 <?php
 /*
- * Methods for debugging. Pretty much just wraps PQP and ErrorHandler
+ * Methods for debugging. Pretty much just wraps PQP, Var_Dump and ErrorHandler
  */
 Loader::load('vendor', array(
 		  'pqp/classes/PhpQuickProfiler.php',
-		  'pqp/classes/Console.php'
+		  'pqp/classes/Console.php',
+		  'var_dump/Var_Dump.php'
 	   ));
 
 Loader::load('utility', "ErrorHandler");
@@ -15,6 +16,7 @@ class Debugger
 	private static $profiler, $time = array();
 	public static $queries = array();
 	private static $console = false;
+	private static $renderer = null;
 
 	/*
 	 * initialize the debugger
@@ -23,10 +25,12 @@ class Debugger
 	{
 		$developer = false;
 
+		self::init_Var_Dump();
+
 		if (isset($_SERVER['REMOTE_ADDR']) && (substr($_SERVER['REMOTE_ADDR'], 0, 3) == "10." || substr($_SERVER['REMOTE_ADDR'], 0, 8) == "192.168."))
 		{
 			$developer = true;
-			
+
 			if (!isset($_SESSION))
 			{
 				Loader::load("utility", "session/Session");
@@ -64,6 +68,11 @@ class Debugger
 			set_error_handler(array("Debugger", "error_handling_live"), E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE);
 			register_shutdown_function(array('ErrorHandler', 'shutdownCheck'));
 		}
+	}
+
+	public static function init_Var_Dump()
+	{
+		Var_Dump::displayInit(array('display_mode' => 'HTML4_Text'), array('mode' => 'normal', 'offset' => 4));
 	}
 
 	public static function growl($message)

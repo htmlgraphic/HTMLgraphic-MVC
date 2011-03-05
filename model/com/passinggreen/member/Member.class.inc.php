@@ -15,16 +15,18 @@ class Member extends DBObject
 	public function __construct($mem_id = null)
 	{
 		if (isset($mem_id))
+		{
 			$this->setDBValue("AutoID", $mem_id);
+		}
 		else
 		{
-			$this->setDBValue(self::$START_SUBSCRIBE, date("Y-m-d"));
+			$this->setDBValue("date_added", date("Y-m-d H:i:s"));
 		}
 	}
 
 	public function can_load()
 	{
-		$id = $this->getDBValue("id");
+		$id = $this->getDBValue("AutoID");
 
 		return isset($id);
 	}
@@ -53,7 +55,6 @@ class Member extends DBObject
 	{
 		$id = (int) $id;
 		$email = trim($email);
-		$author = addslashes($author);
 
 		$sql = "SELECT `AutoID` , `useremail`, `userFirstname`, `userLastname` FROM `user_signup`";
 
@@ -77,8 +78,6 @@ class Member extends DBObject
 		if ($email)
 		{
 			$sql.= " `useremail` = '$email'";
-			if ($author)
-				$sql.= " &&";
 		}
 
 		if ($res = DatabaseFactory::passinggreen_master_db()->query($sql))
@@ -88,7 +87,7 @@ class Member extends DBObject
 			{
 				$member = $res->fetch_object();
 
-				return new Member($member->id);
+				return new Member($member->AutoID);
 			}
 			else
 				return null;
@@ -138,12 +137,12 @@ class Member extends DBObject
 
 	protected function db()
 	{
-		return DatabaseFactory::ea_articles_db();
+		return DatabaseFactory::passinggreen_db();
 	}
 
 	protected function master_db()
 	{
-		return DatabaseFactory::ea_db1_db();
+		return DatabaseFactory::passinggreen_master_db();
 	}
 
 	protected function table()
@@ -158,7 +157,7 @@ class Member extends DBObject
 
 	public function getID()
 	{
-		return $this->getDBValue("AutoID");
+		return $this->getDBValue($this->primary_key());
 	}
 
 	public function getPasswordHash()

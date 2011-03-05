@@ -60,7 +60,7 @@ class Request
 		}
 		else
 			$new = addslashes($vals);
-		return $new;
+		return isset($new) ? $new : null;
 	}
 
 	static function getRequest($name = null)

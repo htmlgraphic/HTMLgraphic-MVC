@@ -1,7 +1,7 @@
 <?php
-Loader::load('controller', 'ModulePageController');
+Loader::load('controller', 'AdminPageController');
 
-class AdminLoginController extends ModulePageController
+class AdminLoginController extends AdminPageController
 {
 	function activate()
 	{
@@ -33,15 +33,12 @@ class AdminLoginController extends ModulePageController
 			   ));
 
 		$member = Member::findMemberWithEmail(addslashes(Request::getPost('email')));
-		var_dump(Request::getPost());
-		exit;
-
 		$valid = false;
 
 		if (isset($member) && $member->isValid())
 		{
-			$adminMember = new PassinggreenMemberSessionMapping($member->getID());
-			$valid = ($member->validatePassword(Request::getPost('password')) && isset($adminMember) && $adminMember->isValid());
+			//$adminMember = new PassinggreenMemberSessionMapping($member->getID());
+			$valid = ($member->validatePassword(Request::getPost('password')));
 		}
 
 		if ($valid)
@@ -66,7 +63,7 @@ class AdminLoginController extends ModulePageController
 	private function show_form()
 	{
 		$this->setPageData('header/title', 'Admin Login');
-		$this->setPageView('admin/body/Login');
+		$this->setPageView('admin/LoginPage');
 
 		$this->addPageData('header/assets/js', array(
 		    '/js/jquery-1.4.3.min.js',
