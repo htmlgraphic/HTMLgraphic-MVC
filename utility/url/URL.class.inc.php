@@ -335,7 +335,7 @@ class URL
 	 * 	URL::add('/', 'HomeController');
 	 *  URL::add(array(
 	 *  	'/benefits/', 'static/BenefitsController',
-	 *  	'/?id', 'article/ArticleController'
+	 *  	'/?id', 'foo/FooController'
 	 *  ));
 	 */
 	static function add($u, $c = null)
@@ -384,7 +384,7 @@ class URL
 	 * 			'/benefits/',
 	 * 			'/benefits.html'
 	 * 		),
-	 *  	'article/ArticleController' => array(
+	 *  	'foo/FooController' => array(
 	 * 			'?id',
 	 * 			'?id*'
 	 * 		)
