@@ -23,14 +23,18 @@ class PassinggreenRouter extends SiteRouter
 	function route()
 	{
 		URL::add(array(
-				  '/admin/' => 'AdminHomeController',
-				  '/admin/home' => 'AdminHomeController',
+				  '/admin/' => 'AdminDashboardController',
+				  '/admin/dashboard' => 'AdminDashboardController',
+				  '/admin/users' => 'AdminUsersController',
+				  '/admin/settings' => 'AdminSettingsController',
 				  '/admin/login' => 'AdminLoginController',
 				  '/admin/rpc/*' => '/controller/RpcController',
 			   ));
 
 		URL::alias('/admin', '/admin/index.php');
-		URL::alias('/admin/home', '/admin/home/');
+		URL::alias('/admin/dashboard', '/admin/dashboard/');
+		URL::alias('/admin/users', '/admin/users/');
+		URL::alias('/admin/settings', '/admin/settings/');
 
 		$controller_path = URL::getControllerFromUrl();
 

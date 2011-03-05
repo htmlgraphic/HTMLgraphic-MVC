@@ -27,17 +27,14 @@ class AdminLoginController extends AdminPageController
 	private function login()
 	{
 		Loader::load('utility', 'session/Session');
-		Loader::load('model', array(
-				  'com/passinggreen/member/Member',
-				  'com/passinggreen/PassinggreenMemberSessionMapping'
-			   ));
+		Loader::load('model', 'com/passinggreen/member/Member'
+		);
 
 		$member = Member::findMemberWithEmail(addslashes(Request::getPost('email')));
 		$valid = false;
 
 		if (isset($member) && $member->isValid())
 		{
-			//$adminMember = new PassinggreenMemberSessionMapping($member->getID());
 			$valid = ($member->validatePassword(Request::getPost('password')));
 		}
 
@@ -63,13 +60,10 @@ class AdminLoginController extends AdminPageController
 	private function show_form()
 	{
 		$this->setPageData('header/title', 'Admin Login');
-		$this->setPageView('admin/LoginPage');
+		$this->setPageView('admin/AdminPage');
+		$this->setBodyView('admin/body/Login');
 
-		$this->addPageData('header/assets/js', array(
-		    '/js/jquery-1.4.3.min.js',
-		    '/js/colorbox.js',
-		    '/js/landing.js'
-		));
+		$this->addPageData('login_form', true);
 
 		$this->loadPage();
 		exit;

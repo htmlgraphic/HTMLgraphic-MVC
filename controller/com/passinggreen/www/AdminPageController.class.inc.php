@@ -14,10 +14,10 @@ abstract class AdminPageController extends PageController
 		   'metaProperties' => array(),
 		   'assets' => array(
 			  'css' => array(
-				 '/css/module.css'
+				 '/admin/css/default.css'
 			  )
 		   ),
-		   'ga_load' => true,
+		   'ga_load' => false, // Google Analytics
 		   'ga_options' => array(
 			  '_trackPageview'
 		   ),
@@ -26,7 +26,7 @@ abstract class AdminPageController extends PageController
 		   'sidebar' => array()
 	    ),
 	    'content_header' => array(
-		   'logo' => '/images/logo.jpg'
+		   'logo' => '/admin/images/logo.jpg'
 	    ),
 	    'breadcrumb' => array(),
 	    'body' => array(),
@@ -34,18 +34,57 @@ abstract class AdminPageController extends PageController
 	);
 	protected $navigation = array(
 	    array(
-		   'link' => '/admin/home',
-		   'name' => 'Home'
+		   'link' => '/admin/dashboard',
+		   'name' => 'Dashboard'
 	    ),
 	    array(
 		   'link' => '/admin/users',
 		   'name' => 'Users'
+	    ),
+	    array(
+		   'link' => '/admin/settings',
+		   'name' => 'Settings'
+	    ),
+	    array(
+		   'link' => '/admin/help',
+		   'name' => 'Help'
 	    )
 	);
 
 	function __construct()
 	{
 		parent::__construct();
+
+		$this->addPageData('header/assets/css', array(
+		    '/admin/css/landing.css',
+		    '/admin/css/colorbox.css',
+		    array(
+			   'conditional' => 'lt IE 9',
+			   'path' => '/admin/css/landing.ie.css'
+		    )
+		));
+
+		$this->addPageData('header/assets/js', array(
+		    '/admin/js/jquery-1.4.3.min.js',
+		    '/admin/js/jquery.ui.js',
+		    '/admin/js/jquery.browser.js',
+		    '/admin/js/jquery.validator.js',
+		    '/admin/js/jquery.tablesorter.js',
+		    '/admin/js/jquery.tablesorter.pager.js',
+		    '/admin/js/jquery.daterangepicker.js',
+		    '/admin/js/jquery.maskedinput.js',
+		    '/admin/js/jquery.corners.js',
+		    '/admin/js/jquery.hoverintent.js',
+		    '/admin/js/jquery.visualize.js',
+		    '/admin/js/jquery.autoupload.js',
+		    '/admin/js/jquery.qtip.js',
+		    '/admin/js/general.js',
+		    '/admin/js/messagestack.js',
+		    '/admin/js/colorbox.js',
+		    '/admin/js/landing.js'
+		));
+
+		$this->addPageData('nav/bgcolor', "#f66");
 
 		$this->member = Config::get('Member');
 	}
@@ -65,21 +104,6 @@ abstract class AdminPageController extends PageController
 			$this->settings['header']['breadcrumb'] = $this->settings['breadcrumb'];
 
 		parent::loadPage();
-	}
-
-	protected function module_is_active(FormulaModule $module, $check_employee = true)
-	{
-		Loader::load('module', 'com/passinggreen/ModuleIsActiveModule');
-		$active_module = new ModuleIsActiveModule($module, $check_employee);
-		return $active_module->activate();
-	}
-
-	protected function get_module_link(FormulaModule $module)
-	{
-		if ($this->module_is_active($module, false))
-			return 'Continue on to <a href="/' . str_replace(' ', '', $module->getName()) . '">' . $module->getName() . '</a>';
-		else
-			return "{$module->getName()} will be available on {$module->calculateStartDate($this->memberSession->getSignupDate('U'), 'F jS')}";
 	}
 
 }
