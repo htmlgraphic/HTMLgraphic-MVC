@@ -21,3 +21,4 @@
 <?php $this->loadView('admin/parts/UserAddForm'); ?>
 <?php $this->loadView('admin/parts/UserEditForm'); ?>
 <?php $this->loadView('admin/parts/UserDeleteForm'); ?>
+<!-- END -->
