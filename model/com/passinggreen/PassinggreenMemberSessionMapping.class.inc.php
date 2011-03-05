@@ -4,12 +4,9 @@ Loader::load("model", "DBObject");
 class PassinggreenMemberSessionMapping extends DBObject
 {
 
-	private static $MEMBER_ID = "member_id";
+	private static $MEMBER_ID = "AutoID";
 	private static $SESSION_ID = "session_id";
-	private static $SIGNUP_DATE = "signup_date";
-	private static $COMPLIMENTARY = "complimentary";
-	public static $COMPLIMENTARY_STATUS = 1;
-	public static $NOT_COMPLIMENTARY_STATUS = 0;
+	private static $CREATED_DATE = "date_added";
 
 	protected function db_name()
 	{
@@ -33,7 +30,7 @@ class PassinggreenMemberSessionMapping extends DBObject
 
 	protected function table()
 	{
-		return "member_to_session";
+		return "user_signup_to_session";
 	}
 
 	public function where_clause()
@@ -64,16 +61,16 @@ class PassinggreenMemberSessionMapping extends DBObject
 		$this->setDBValue(self::$MEMBER_ID, $member->getID());
 	}
 
-	private $formulasession;
+	private $passinggreensession;
 
 	public function getSession()
 	{
-		if (!isset($this->formulasession))
+		if (!isset($this->passinggreensession))
 		{
 			Loader::load("model", "com/passinggreen/PassinggreenSession");
-			$this->formulasession = new FormulaSession($this->getDBValue(self::$SESSION_ID));
+			$this->passinggreensession = new PassinggreenSession($this->getDBValue(self::$SESSION_ID));
 		}
-		return $this->formulasession;
+		return $this->passinggreensession;
 	}
 
 	public function setSession($session = null)
@@ -81,24 +78,14 @@ class PassinggreenMemberSessionMapping extends DBObject
 		$this->setDBValue(self::$SESSION_ID, 0);
 	}
 
-	public function getSignupDate($format = "Y-m-d H:i:s")
+	public function getCreationDate($format = "Y-m-d H:i:s")
 	{
-		return date($format, strtotime($this->getDBValue(self::$SIGNUP_DATE)));
+		return date($format, strtotime($this->getDBValue(self::$CREATED_DATE)));
 	}
 
-	public function setSignupDate($signup_date)
+	public function setCreationDate($signup_date)
 	{
-		$this->setDBValue(self::$SIGNUP_DATE, $signup_date);
-	}
-
-	public function getComplimentary()
-	{
-		return $this->getDBValue(self::$COMPLIMENTARY);
-	}
-
-	public function setComplimentary($complimentary)
-	{
-		$this->setDBValue(self::$COMPLIMENTARY, $complimentary);
+		$this->setDBValue(self::$CREATED_DATE, $signup_date);
 	}
 
 	public static function memberFilter(Member $member)
@@ -111,14 +98,9 @@ class PassinggreenMemberSessionMapping extends DBObject
 		return array("column" => self::$SESSION_ID, "value" => $formulasession->getID());
 	}
 
-	public static function signupdateFilter($signup_date)
+	public static function creationDateFilter($signup_date)
 	{
-		return array("column" => self::$SIGNUP_DATE, "value" => $signup_date);
-	}
-
-	public static function complimentaryFilter($complimentary)
-	{
-		return array("column" => self::$COMPLIMENTARY, "value" => $complimentary);
+		return array("column" => self::$CREATED_DATE, "value" => $signup_date);
 	}
 
 	public static function memberSort()
@@ -131,9 +113,9 @@ class PassinggreenMemberSessionMapping extends DBObject
 		return self::$SESSION_ID;
 	}
 
-	public static function signupdateSort()
+	public static function creationDateSort()
 	{
-		return self::$SIGNUP_DATE;
+		return self::$CREATED_DATE;
 	}
 
 }

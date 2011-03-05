@@ -16,13 +16,15 @@ class AdminHomeController extends DefaultPageController
 					  'com/passinggreen/PassinggreenMemberSessionMapping'
 				   ));
 
-			$formulaMember = new PassinggreenMemberSessionMapping(Config::get('Member')->getID());
+			$adminMember = new PassinggreenMemberSessionMapping(Config::get('Member')->getID());
 
-			/*if (isset($formulaMember) && $formulaMember->isValid())
-				$this->redirect('/dashboard/', '302');*/
+			if (isset($adminMember) && $adminMember->isValid())
+			{
+				$this->redirect('/admin/home', '302');
+			}
 		}
 
-		$postArgs = Request::_POST();
+		$postArgs = Request::getPost();
 		Debugger::log($postArgs);
 
 		if (count($postArgs))

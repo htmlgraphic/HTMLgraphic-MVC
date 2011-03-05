@@ -23,13 +23,16 @@ class Debugger
 	{
 		$developer = false;
 
-		if (isset($_SERVER['REMOTE_ADDR']) && (substr($_SERVER['REMOTE_ADDR'], 0, 5) == "10." || substr($_SERVER['REMOTE_ADDR'], 0, 5) == "192.168."))
+		if (isset($_SERVER['REMOTE_ADDR']) && (substr($_SERVER['REMOTE_ADDR'], 0, 3) == "10." || substr($_SERVER['REMOTE_ADDR'], 0, 8) == "192.168."))
 		{
+			$developer = true;
+			
 			if (!isset($_SESSION))
 			{
 				Loader::load("utility", "session/Session");
 				Session::instance();
 			}
+
 			if ((isset($_COOKIE['hg_show_debugger']) && $_COOKIE['hg_show_debugger']) || (isset($_SESSION['hg_show_debugger']) && $_SESSION['hg_show_debugger']))
 			{
 				$developer = true;
@@ -45,6 +48,7 @@ class Debugger
 			set_error_handler(array("Debugger", "error_handling_dev"), E_ALL);
 			register_shutdown_function(array('ErrorHandler', 'shutdownCheck'));
 			register_shutdown_function(array('Debugger', 'display'));
+
 			self::$profiler = new PhpQuickProfiler(Config::get('StartTime'));
 		}
 		elseif (Config::get('MaxRunTime'))
@@ -95,6 +99,7 @@ class Debugger
 	{
 		$ajax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
 		$pentest = (substr_count($_SERVER['HTTP_USER_AGENT'], "Netsparker")) ? true : false;
+
 		// don't show output if Config::get('HideDebugger') == true or if it's an ajax request
 		if (!Config::get('HideDebugger') && !$ajax && !$pentest)
 		{

@@ -10,7 +10,7 @@ class AdminLoginController extends ModulePageController
 			$this->logout();
 			$this->redirect('/admin/');
 		}
-		elseif (Request::_POST())
+		elseif (Request::getPost())
 		{
 			$this->login();
 		}
@@ -32,16 +32,16 @@ class AdminLoginController extends ModulePageController
 				  'com/passinggreen/PassinggreenMemberSessionMapping'
 			   ));
 
-		print_r(Request::_POST());
+		$member = Member::findMemberWithEmail(addslashes(Request::getPost('email')));
+		var_dump(Request::getPost());
 		exit;
-		$member = Member::findMemberWithEmail(addslashes(Request::_POST('email')));
 
 		$valid = false;
 
 		if (isset($member) && $member->isValid())
 		{
-			$formulaMember = new PassinggreenMemberSessionMapping($member->getID());
-			$valid = ($member->validatePassword(Request::_POST('password')) && isset($formulaMember) && $formulaMember->isValid());
+			$adminMember = new PassinggreenMemberSessionMapping($member->getID());
+			$valid = ($member->validatePassword(Request::getPost('password')) && isset($adminMember) && $adminMember->isValid());
 		}
 
 		if ($valid)

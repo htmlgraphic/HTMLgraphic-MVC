@@ -6,41 +6,16 @@ Loader::load('model', array(
 class Member extends DBObject
 {
 
-	private static $MEMBERSHIP_LEVEL = "membership_lvl";
-	private static $START_SUBSCRIBE = 'start_subscribe';
-	private static $END_SUBSCRIBE = 'end_subscribe';
-	private static $LAST_SUBMIT = 'last_submit';
-	private static $LAST_LOGIN = 'last_login';
-	private static $SUBMITS_LEFT = 'submits_left';
-	private static $STATUS = 'status';
-	private static $SUSPEND_MSG = "suspend_msg";
-	const BASIC = "Basic";
-	const BASIC_PLUS = "Basic PLUS";
-	const PLATINUM = "Platinum";
-
-	const SUSPENDED_PENDING_INVESTIGATION = "SUSPENDED PENDING INVESTIGATION";
-	const SUSPENDED_FUTURE_SUBMISSIONS = "Suspended Future Submissions";
-	const SUSPENDED_EMAIL_BOUNCING = "Suspended Email Bouncing";
-	const SUSPENDED_INVALID_AUTHOR_NAME = "Suspended Invalid Author Name";
-	const SUSPENDED_POSTHUMOUS = "Suspended Posthumous";
-
-	const PREMIUM_STATUS = 2;
-
-	const MAX_ALTERNATE_AUTHORS = 50;
-
-	const MAX_DRAFTS_ALLOWED = 30;
-
-	const BASIC_SUBMITS = 10;
-	const BASIC_PLUS_SUBMITS = 25;
-	const UNLIMITED_SUBMITS = "Unlimited"; //This would be PLATINUM_SUBMITS as well
-
 	private static $stored_member;
 	private static $current_member = null;
 
+	const BASIC_USER = "member";
+	const ADMIN_USER = "admin";
+	const GOD_USER = "superadmin";
 	public function __construct($mem_id = null)
 	{
 		if (isset($mem_id))
-			$this->setDBValue("id", $mem_id);
+			$this->setDBValue("AutoID", $mem_id);
 		else
 		{
 			$this->setDBValue(self::$START_SUBSCRIBE, date("Y-m-d"));
@@ -56,7 +31,7 @@ class Member extends DBObject
 
 	function getMemCacheKey()
 	{
-		return "ea_member({$this->getID()})";
+		return "hg_member({$this->getID()})";
 	}
 
 	static function allowMemCache()
@@ -66,7 +41,7 @@ class Member extends DBObject
 
 	static function primary_key()
 	{
-		return "id";
+		return "AutoID";
 	}
 
 	public static function findMemberWithEmail($email)
@@ -74,13 +49,14 @@ class Member extends DBObject
 		return self::lookup_member(null, $email);
 	}
 
-	public static function lookup_member($id=null, $email=null, $author=null)
+	public static function lookup_member($id=null, $email=null)
 	{
 		$id = (int) $id;
 		$email = trim($email);
 		$author = addslashes($author);
 
-		$sql = "SELECT `id` , `email`, `author` FROM `members`";
+		$sql = "SELECT `AutoID` , `useremail`, `userFirstname`, `userLastname` FROM `user_signup`";
+
 		if ($id || $email || $author)
 		{
 			$sql .= " WHERE";
@@ -93,20 +69,19 @@ class Member extends DBObject
 
 		if ($id)
 		{
-			$sql.= " `id` = '$id'";
+			$sql.= " `AutoID` = '$id'";
 			if ($email || $author)
 				$sql.= " &&";
 		}
+
 		if ($email)
 		{
-			$sql.= " `email` = '$email'";
+			$sql.= " `useremail` = '$email'";
 			if ($author)
 				$sql.= " &&";
 		}
-		if ($author)
-			$sql.= " `author` = '$author'";
-		//	echo "$sql<br>";
-		if ($res = DatabaseFactory::passinggreen_db()->query($sql))
+
+		if ($res = DatabaseFactory::passinggreen_master_db()->query($sql))
 		{
 
 			if ($res->num_rows == 1)
@@ -138,7 +113,6 @@ class Member extends DBObject
 	{
 		if (self::$stored_member->id == $id)
 		{
-
 			return self::$stored_member;
 		}
 		self::$stored_member = new Member($id);
@@ -174,23 +148,22 @@ class Member extends DBObject
 
 	protected function table()
 	{
-		return "members";
+		return "user_signup";
 	}
 
 	protected function where_clause()
 	{
-
-		return "`member_id` = '{$this->getDBValue('member_id')}'";
+		return "`AutoID` = '{$this->getDBValue('AutoID')}'";
 	}
 
 	public function getID()
 	{
-		return $this->getDBValue("member_id");
+		return $this->getDBValue("AutoID");
 	}
 
 	public function getPasswordHash()
 	{
-		return $this->getDBValue("passwd_hash");
+		return $this->getDBValue("passwd");
 	}
 
 	public function setPassword($password)
@@ -201,7 +174,7 @@ class Member extends DBObject
 
 	public function setPasswordHash($passwordHash)
 	{
-		$this->setDBValue('passwd_hash', $passwordHash);
+		$this->setDBValue('passwd', $passwordHash);
 	}
 
 	public function getFullName()
@@ -211,152 +184,102 @@ class Member extends DBObject
 
 	public function getFirstName()
 	{
-		return $this->getDBValue("fname");
+		return $this->getDBValue("userFirstname");
 	}
 
 	function setFirstName($value)
 	{
-		$this->setDBValue("fname", $value);
+		$this->setDBValue("userFirstname", $value);
 	}
 
 	public function getLastName()
 	{
-		return $this->getDBValue("lname");
+		return $this->getDBValue("userLastname");
 	}
 
 	function setLastName($value)
 	{
-		$this->setDBValue("lname", $value);
+		$this->setDBValue("userLastname", $value);
 	}
 
 	function getAddress1()
 	{
-		return $this->getDBValue("address1");
+		return $this->getDBValue("userAddr1");
 	}
 
 	function setAddress1($value)
 	{
-		$this->setDBValue("address1", $value);
+		$this->setDBValue("userAddr1", $value);
 	}
 
 	function getAddress2()
 	{
-		return $this->getDBValue("address2");
+		return $this->getDBValue("userAddr2");
 	}
 
 	function setAddress2($value)
 	{
-		$this->setDBValue("address2", $value);
+		$this->setDBValue("userAddr2", $value);
 	}
 
 	function getCity()
 	{
-		return $this->getDBValue("city");
+		return $this->getDBValue("userCity");
 	}
 
 	function setCity($value)
 	{
-		$this->setDBValue("city", $value);
+		$this->setDBValue("userCity", $value);
 	}
 
 	function getState()
 	{
-		return $this->getDBValue("state");
+		return $this->getDBValue("userState");
 	}
 
 	function setState($value)
 	{
-		$this->setDBValue("state", $value);
+		$this->setDBValue("userState", $value);
 	}
 
 	function getZipCode()
 	{
-		return $this->getDBValue("zip");
+		return $this->getDBValue("userZip");
 	}
 
 	function setZipCode($value)
 	{
-		$this->setDBValue("zip", $value);
+		$this->setDBValue("userZip", $value);
 	}
 
 	function getPhoneNumber()
 	{
-		return $this->getDBValue("phone");
+		return $this->getDBValue("userPhone");
 	}
 
 	function setPhoneNumber($value)
 	{
-		$this->setDBValue("phone", $value);
-	}
-
-	function getFaxNumber()
-	{
-		return $this->getDBValue("fax");
-	}
-
-	function setFaxNumber($value)
-	{
-		$this->setDBValue("fax", $value);
+		$this->setDBValue("userPhone", $value);
 	}
 
 	function getBusinessName()
 	{
-		return $this->getDBValue("business_name");
+		return $this->getDBValue("userCompany");
 	}
 
 	function setBusinessName($value)
 	{
-		$this->setDBValue("business_name", $value);
-	}
-
-	function getURL()
-	{
-		return $this->getDBValue("url");
-	}
-
-	function setURL($value)
-	{
-		$this->setDBValue("url", $value);
-	}
-
-	function getIMName()
-	{
-		return $this->getDBValue("im_name");
-	}
-
-	function setIMName($value)
-	{
-		$this->setDBValue("im_name", $value);
-	}
-
-	function getIMClient()
-	{
-		return $this->getDBValue("im");
-	}
-
-	function setIMClient($value)
-	{
-		$this->setDBValue("im", $value);
+		$this->setDBValue("userCompany", $value);
 	}
 
 	function getIP()
 	{
-		return $this->getDBValue("ip");
+		return $this->getDBValue("last_ip");
 	}
 
-	function setIP($ip)
+	function setIP($value)
 	{
-		$this->setDBValue("ip", $ip);
-	}
-
-	function getRSS()
-	{
-		return $this->getDBValue("rss");
-	}
-
-	function setRSS($rss)
-	{
-		$this->setDBValue("rss", $rss);
+		$this->setDBValue("last_ip", $value);
 	}
 
 	private $profile;
@@ -373,12 +296,12 @@ class Member extends DBObject
 
 	public function getEmail()
 	{
-		return $this->getDBValue("email");
+		return $this->getDBValue("useremail");
 	}
 
 	function setEmail($value)
 	{
-		$this->setDBValue("email", $value);
+		$this->setDBValue("useremail", $value);
 	}
 
 	public function setStatus($status)
@@ -393,26 +316,27 @@ class Member extends DBObject
 
 	function getCountry()
 	{
-		return $this->getDBValue("country");
+		return $this->getDBValue("userCountry");
 	}
 
 	function setCountry($value)
 	{
-		$this->setDBValue("country", $value);
+		$this->setDBValue("userCountry", $value);
 	}
 
 	function validatePassword($password)
 	{
-		$query = "SELECT `id` FROM `members` WHERE `passwd_hash` = '" . hash('sha256', $password) . "' && `id` = '{$this->getID()}'";
-		$result = DatabaseFactory::ea_db1_db()->query($query);
+		$query = "SELECT `AutoID` FROM `" . $this->table() . "` WHERE `passwd` = '" . hash('sha256', $password) . "' && `AutoID` = '{$this->getID()}'";
+		$result = DatabaseFactory::passinggreen_master_db()->query($query);
 
 		if ($result && $result->num_rows)
+		{
 			return true;
+		}
 
 		return false;
 	}
 
-	//this could check for to make sure the id isn't blank but should be fine for now.
 	function isEmployee()
 	{
 		return $this->getEmployeeID();
@@ -424,12 +348,16 @@ class Member extends DBObject
 		$employee = Employee::lookupEmployeeWithMember($this);
 
 		if (isset($employee) && $employee->is_valid())
+		{
 			return $employee->getID();
+		}
 		else
+		{
 			return false;
+		}
 	}
 
-	function __tostring()
+	function __toString()
 	{
 		return "Member: {$this->getID()}";
 	}
@@ -437,33 +365,32 @@ class Member extends DBObject
 	public function getLastLogin($format = "Y-m-d H:i:s")
 	{
 		$login = $this->getDBValue("last_login");
+
 		if ($login == "0000-00-00 00:00:00")
+		{
 			return;
+		}
+
 		return date($format, strtotime($this->getDBValue("last_login")));
 	}
 
 	public function recordLogin()
 	{
-		if (!isset($_REQUEST["admin"]))
-		{
-			$date = date('Y-m-d H:i:s');
-			$query = "UPDATE members SET last_login='$date' WHERE id='{$this->getID()}'";
-			$submit = $this->db()->execute($query);
-		}
+		$date = date('Y-m-d H:i:s');
+		$query = "UPDATE " . $this->table() . " SET last_login='$date' WHERE id='{$this->getID()}'";
+		$submit = $this->db()->execute($query);
 	}
 
 	public function updateLastLogin()
 	{
-		if (!isset($_REQUEST["admin"]))
-		{
-			$date = date('Y-m-d H:i:s');
-			$this->setDBValue('last_login', $date);
-		}
+		$date = date('Y-m-d H:i:s');
+		$this->setDBValue('last_login', $date);
 	}
 
 	static function maxMemberID()
 	{
-		$sql = "SELECT MAX(id) as max_id FROM {$this->table()}";
+		$sql = "SELECT MAX(id) as max_id FROM `user_signup`";
+
 		if ($result = $this->db()->query($sql))
 		{
 			$info = $result->fetch_object();
@@ -472,23 +399,6 @@ class Member extends DBObject
 
 		return false;
 	}
-
-	private static $table_settings = array(
-	    "gedit",
-	    "cmnt_email",
-	    "rank_view",
-	    "msg_pref",
-	    "msg_notify",
-	    "msg_lock",
-	    "sig_notify",
-	    "handicap",
-	    "auto_save",
-	    "article_sub",
-	    "article_app",
-	    "article_prob",
-	    "author_photo",
-	    "author_bio");
-	private $external_settings = array();
 
 	/* public function getPreference($type)
 	  {
@@ -525,73 +435,35 @@ class Member extends DBObject
 	  $this->external_settings[$type]->save();
 	  }
 	  } */
-	//Overrides DBObject, for Member.AccountInformation.Update
-	public function change_as_history($key, $new, $prev)
-	{
-		switch ($key)
-		{
-			case 'im':
-				$key = "IM Client";
-				break;
-			case 'im_name':
-				$key = "IM Name";
-				break;
-			case 'fname':
-				$key = "First Name";
-				break;
-			case 'lname':
-				$key = "Last Name";
-				break;
-			case 'address1':
-				$key = "Address 1";
-				break;
-			case 'address2':
-				$key = "Address 2";
-				break;
-			case 'url':
-				$key = "URL";
-				break;
-			default:
-				$key = str_replace("_", " ", $key);
-				$key = ucwords($key);
-		}//end switch
-		if ($new == "")
-		{
-			$new = "empty";
-		}
-		if ($prev == "")
-		{
-			$prev = "empty";
-		}
-		$change = "$key: $new (was $prev)\n";
-
-		return $change;
-	}
-
 	public static function emailFilter($email)
 	{
-		return array("column" => "email", "value" => $email);
+		return array("column" => "useremail", "value" => $email);
 	}
 
 	public static function countryFilter(Country $country)
 	{
-		return array("column" => "country", "value" => $country->getCountry());
+		return array("column" => "userCountry", "value" => $country->getCountry());
 	}
 
 	public static function adminFilter()
 	{
-		return array("column" => self::$MEMBERSHIP_LEVEL, "value" => self::BASIC);
+		return array("column" => "level", "value" => self::ADMIN_USER);
+	}
+
+	public static function godFilter()
+	{
+		return array("column" => "level", "value" => self::GOD_USER);
 	}
 
 	public static function neverLoggedInFilter()
 	{
-		return array('column' => self::$LAST_LOGIN, 'value' => "0000-00-00 00:00:00");
+		return array('column' => "last_login", 'value' => "0000-00-00 00:00:00");
 	}
 
 	public static function lastLoginAfterFilter($date)
 	{
 		return array(
-		    'column' => self::$LAST_LOGIN,
+		    'column' => "last_login",
 		    'value' => date('Y-m-d', strtotime($date)),
 		    'comparison' => '>='
 		);
@@ -600,7 +472,7 @@ class Member extends DBObject
 	public static function lastLoginBeforeFilter($date)
 	{
 		return array(
-		    'column' => self::$LAST_LOGIN,
+		    'column' => "last_login",
 		    'value' => date('Y-m-d', strtotime($date)),
 		    'comparison' => '<='
 		);

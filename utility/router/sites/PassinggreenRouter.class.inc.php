@@ -24,11 +24,13 @@ class PassinggreenRouter extends SiteRouter
 	{
 		URL::add(array(
 				  '/admin/' => 'AdminHomeController',
+				  '/admin/home' => 'AdminHomeController',
 				  '/admin/login' => 'AdminLoginController',
 				  '/admin/rpc/*' => '/controller/RpcController',
 			   ));
 
 		URL::alias('/admin', '/admin/index.php');
+		URL::alias('/admin/home', '/admin/home/');
 
 		$controller_path = URL::getControllerFromUrl();
 
@@ -47,14 +49,14 @@ class PassinggreenRouter extends SiteRouter
 			}
 			else
 			{
-				/*$formulaMember = DBObject::collection('PassinggreenMemberSessionMapping', DBObject::CONSISTENCY_ABSOLUTE)
-							 ->applyMemberFilter($member)
-							 ->getFirstFormulaMemberSessionMapping();
+				/* $formulaMember = DBObject::collection('PassinggreenMemberSessionMapping', DBObject::CONSISTENCY_ABSOLUTE)
+				  ->applyMemberFilter($member)
+				  ->getFirstFormulaMemberSessionMapping();
 
-				if (!isset($formulaMember) || !$formulaMember->isValid())
-				{
-					$this->show_login();
-				}*/
+				  if (!isset($formulaMember) || !$formulaMember->isValid())
+				  {
+				  $this->show_login();
+				  } */
 			}
 		}
 

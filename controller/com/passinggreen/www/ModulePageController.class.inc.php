@@ -65,28 +65,28 @@ abstract class ModulePageController extends PageController
 						 $this->member->getID());
 
 			/*
-			Loader::load('model', 'ezinearticles/formula/FormulaModule');
-			$modules = DBObject::collection('FormulaModule')
-						 ->applyAscendingWeekSort()
-						 ->applyFilter(array('column' => 'module_id', 'comparison' => '!=', 'value' => 11))
-						 ->getFormulaModules();
+			  Loader::load('model', 'com/passinggreen/FormulaModule');
+			  $modules = DBObject::collection('FormulaModule')
+			  ->applyAscendingWeekSort()
+			  ->applyFilter(array('column' => 'module_id', 'comparison' => '!=', 'value' => 11))
+			  ->getFormulaModules();
 
-			$module_data = array();
-			foreach ($modules as $module)
-			{
-				$module_data[] = (object) array(
-						  'name' => $module->getName(),
-						  'description' => $module->getDescription(),
-						  'enabled' => $this->module_is_active($module, false),
-						  'link' => str_replace(' ', '', $module->getName())
-				);
-			}
+			  $module_data = array();
+			  foreach ($modules as $module)
+			  {
+			  $module_data[] = (object) array(
+			  'name' => $module->getName(),
+			  'description' => $module->getDescription(),
+			  'enabled' => $this->module_is_active($module, false),
+			  'link' => str_replace(' ', '', $module->getName())
+			  );
+			  }
 
-			$this->setPageData('header/sidebar/modules', $module_data);
-			$this->setPageData('footer/modules', $module_data);
-			$this->setPageData('header/navigation', $this->navigation);
-			$this->setPageData('footer/navigation', $this->navigation);
-			*/
+			  $this->setPageData('header/sidebar/modules', $module_data);
+			  $this->setPageData('footer/modules', $module_data);
+			  $this->setPageData('header/navigation', $this->navigation);
+			  $this->setPageData('footer/navigation', $this->navigation);
+			 */
 		}
 	}
 
@@ -109,7 +109,7 @@ abstract class ModulePageController extends PageController
 
 	protected function module_is_active(FormulaModule $module, $check_employee = true)
 	{
-		Loader::load('module', 'ezinearticles/formula/ModuleIsActiveModule');
+		Loader::load('module', 'com/passinggreen/ModuleIsActiveModule');
 		$active_module = new ModuleIsActiveModule($module, $check_employee);
 		return $active_module->activate();
 	}
