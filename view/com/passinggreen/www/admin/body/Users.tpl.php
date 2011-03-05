@@ -18,3 +18,6 @@
 	<div id="admin-users-add"><button id="admin-users-add-button" type="button">+ User</button></div>
 		-Table of Users-
 </div>
+<?php $this->loadView('admin/parts/UserAddForm'); ?>
+<?php $this->loadView('admin/parts/UserEditForm'); ?>
+<?php $this->loadView('admin/parts/UserDeleteForm'); ?>

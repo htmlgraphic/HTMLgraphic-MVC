@@ -1,6 +1,6 @@
 <?php
 
-class RpcController extends Controller
+class AdminRpcController extends Controller
 {
 	function __construct()
 	{
@@ -8,9 +8,9 @@ class RpcController extends Controller
 		if (!Config::get('RPC'))
 		{
 			Config::set('RPC', array(
-					  'class' => 2,
-					  'method' => 3,
-					  'action' => 4,
+					  'class' => 3,
+					  'method' => 4,
+					  'action' => 5,
 					  'path' => 'procedure'
 				   ));
 		}
@@ -24,17 +24,23 @@ class RpcController extends Controller
 		list($action, $type) = explode('.', URL::getPathPart($setup['action']), 2);
 
 		$path = $setup["path"] . "/" . $class . "/" . ucwords($method) . ucwords($action) . "Controller";
-		if (file_exists(Loader::getPath("controller", $path)))
-		{
-			Debugger::log("CONTROLLER: <span style=\"color: #990000\">" . ucwords($method) . ucwords($action) . "Controller</span>");
 
-			$controller = Loader::loadNew("controller", $path);
+		/* if (file_exists(Loader::getPath("controller", $path)))
+		  {
+		  Debugger::log("CONTROLLER: <span style=\"color: #990000\">" . ucwords($method) . ucwords($action) . "Controller</span>");
 
-			$controller->activate();
-			if (is_callable(array($controller, $type)))
-				echo $controller->$type();
-			return;
-		}
+		  $controller = Loader::loadNew("controller", $path);
+
+		  $controller->activate();
+
+		  if (is_callable(array($controller, $type)))
+		  {
+		  Debugger::log("executing $type");
+		  echo $controller->$type();
+		  }
+
+		  return;
+		  } */
 
 
 		$controller_class = ucwords($class) . ucwords($method) . ucwords($action) . "Controller";
@@ -45,6 +51,12 @@ class RpcController extends Controller
 		{
 			$controller = Loader::loadNew("controller", "$setup[path]/$controller_class");
 			$controller->activate();
+
+			if (is_callable(array($controller, $type)))
+			{
+
+				echo $controller->$type();
+			}
 		}
 		else
 		{

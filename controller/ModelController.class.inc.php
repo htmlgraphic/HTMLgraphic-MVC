@@ -9,7 +9,8 @@ abstract class ModelController extends Controller
 
 	public function sharedResponse()
 	{
-		if (!isset(self::$shared_response)) {
+		if (!isset(self::$shared_response))
+		{
 			self::$shared_response = new ControllerResponse();
 		}
 		return self::$shared_response;

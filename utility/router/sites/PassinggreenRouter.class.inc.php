@@ -28,7 +28,7 @@ class PassinggreenRouter extends SiteRouter
 				  '/admin/users' => 'AdminUsersController',
 				  '/admin/settings' => 'AdminSettingsController',
 				  '/admin/login' => 'AdminLoginController',
-				  '/admin/rpc/*' => '/controller/RpcController',
+				  '/admin/rpc/*' => 'AdminRpcController',
 			   ));
 
 		URL::alias('/admin', '/admin/index.php');
