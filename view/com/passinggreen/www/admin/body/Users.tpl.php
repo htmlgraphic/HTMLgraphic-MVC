@@ -124,7 +124,7 @@
 	}
 
 	function newUser() {
-		$('#frm-user-edit').reset();
+		//$('#frm-user-edit').clear();
 		$('#frm-user-edit').dialog('option', 'title', 'New User').dialog('open');
 	}
 
