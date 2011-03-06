@@ -26,16 +26,27 @@
 						<link rel="shortcut icon" href="/favicon.ico">
 
 		<?php Loader::loadAssets($header['assets']); ?>
-				
+
 		<?php if ($header['ga_load']) : ?>
 		<?php Loader::loadGoogleAnalytics($header['ga_load']); ?>
 		<?php endif; ?>
 
-	</head>
-	<body>
-		<?php if (!isset($login_form) || !$login_form) : ?>
+						</head>
+						<body>
+							<div id="top-line"></div>
+							<div id="wrapper">
+			<?php if (!isset($login_form) || !$login_form) : ?>
 			<?php $this->loadView('admin/parts/TopNav', $nav); ?>
-		<?php endif; ?>
-		<?php $this->loadView($body_view, $body); ?>
+			<?php else : ?>
+									&nbsp;
+			<?php endif; ?>
+									<div id="page">
+				<?php $this->loadView($body_view, $body); ?>
+								</div>
+								<div id="footer">
+									<div id="copyright">Copyright &copy; <?= date('Y'); ?> by <a href="http://htmlgraphic.com/" title="Visit the HTMLgraphic.">HTMLgraphic</a></div>
+			</div>
+		</div>
+		<div id="loading"></div>
 	</body>
 </html>

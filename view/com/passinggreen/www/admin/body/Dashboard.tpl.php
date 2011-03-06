@@ -1,4 +1,3 @@
-<div id="admin-dashboard" style="background: #66f">
+<div id="page-content">
 	<h1>Dashboard</h1>
-		WELCOME HOME
 </div>

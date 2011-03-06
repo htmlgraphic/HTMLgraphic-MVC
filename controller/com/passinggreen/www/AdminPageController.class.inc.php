@@ -56,12 +56,15 @@ abstract class AdminPageController extends PageController
 		parent::__construct();
 
 		$this->addPageData('header/assets/css', array(
-		    '/admin/css/landing.css',
-		    '/admin/css/colorbox.css',
-		    array(
-			   'conditional' => 'lt IE 9',
-			   'path' => '/admin/css/landing.ie.css'
-		    )
+		    '/admin/css/reset.css',
+		    '/admin/css/ui.visualized.css',
+		    '/admin/css/jquery.cluetip.css',
+		    '/admin/css/framework.css',
+		    '/admin/css/ui-coffee/ui.css'
+			   /* array(
+			     'conditional' => 'lt IE 9',
+			     'path' => '/admin/css/landing.ie.css'
+			     ) */
 		));
 
 		$this->addPageData('header/assets/js', array(

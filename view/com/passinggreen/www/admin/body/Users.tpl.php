@@ -13,10 +13,11 @@
 	$("#admin-users-add-button").live('click',
 	function() { alert("HI");})
 </script>
-<div id="admin-users" style="background: #66f">
+<div id="page-content">
+	<div id="button-panel">
+		<button onclick="newUser();"><span class="ui-icon ui-icon-plusthick"></span>User</button>
+	</div>
 	<h1>Users</h1>
-	<div id="admin-users-add"><button id="admin-users-add-button" type="button">+ User</button></div>
-		-Table of Users-
 </div>
 <?php $this->loadView('admin/parts/UserAddForm'); ?>
 <?php $this->loadView('admin/parts/UserEditForm'); ?>
