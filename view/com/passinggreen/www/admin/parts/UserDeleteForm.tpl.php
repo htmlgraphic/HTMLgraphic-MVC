@@ -1,4 +1,4 @@
-<form action="/admin/rpc/Admin/User/Delete." method="get" id="frm-user-delete" class="dialog validated">
+<form action="/admin-new/rpc/Admin/User/Delete." method="get" id="frm-user-delete" class="dialog validated">
 	<fieldset class="hidden">
 		<input type="hidden" name="action" value="UserDeleteController" />
 		<input type="hidden" name="id" value="" />

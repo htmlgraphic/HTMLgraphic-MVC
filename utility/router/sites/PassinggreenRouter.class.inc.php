@@ -23,18 +23,18 @@ class PassinggreenRouter extends SiteRouter
 	function route()
 	{
 		URL::add(array(
-				  '/admin/' => 'AdminDashboardController',
-				  '/admin/dashboard' => 'AdminDashboardController',
-				  '/admin/users' => 'AdminUsersController',
-				  '/admin/settings' => 'AdminSettingsController',
-				  '/admin/login' => 'AdminLoginController',
-				  '/admin/rpc/*' => 'AdminRpcController',
+				  '/admin-new/' => 'AdminDashboardController',
+				  '/admin-new/dashboard' => 'AdminDashboardController',
+				  '/admin-new/users' => 'AdminUsersController',
+				  '/admin-new/settings/global' => 'AdminSettingsGlobalController',
+				  '/admin-new/login' => 'AdminLoginController',
+				  '/admin-new/rpc/*' => 'AdminRpcController',
 			   ));
 
-		URL::alias('/admin', '/admin/index.php');
-		URL::alias('/admin/dashboard', '/admin/dashboard/');
-		URL::alias('/admin/users', '/admin/users/');
-		URL::alias('/admin/settings', '/admin/settings/');
+		URL::alias('/admin-new/', '/admin-new/index.php');
+		URL::alias('/admin-new/dashboard', '/admin-new/dashboard/');
+		URL::alias('/admin-new/users', '/admin-new/users/');
+		URL::alias('/admin-new/settings/global', array('/admin-new/settings/global/', '/admin-new/settings/', '/admin-new/settings'));
 
 		$controller_path = URL::getControllerFromUrl();
 
@@ -50,17 +50,6 @@ class PassinggreenRouter extends SiteRouter
 			if (!isset($member) || !$member->isValid())
 			{
 				$this->show_login();
-			}
-			else
-			{
-				/* $formulaMember = DBObject::collection('PassinggreenMemberSessionMapping', DBObject::CONSISTENCY_ABSOLUTE)
-				  ->applyMemberFilter($member)
-				  ->getFirstFormulaMemberSessionMapping();
-
-				  if (!isset($formulaMember) || !$formulaMember->isValid())
-				  {
-				  $this->show_login();
-				  } */
 			}
 		}
 

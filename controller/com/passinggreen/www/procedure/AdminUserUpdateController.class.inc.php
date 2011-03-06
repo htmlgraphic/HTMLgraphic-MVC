@@ -24,25 +24,22 @@ class AdminUserUpdateController extends ModelController
 				return;
 			}
 
-			$member = $this->loadModel('com/passinggreen/member/Member', $params['id']);
+			$user = $this->loadModel('com/passinggreen/member/Member', $params['id']);
 
-			if (isset($member) && $member->isValid())
+			if (isset($user) && $user->isValid())
 			{
-				Debugger::log($member->getFirstName());
-				$member->setFirstName("FirstName" . mt_rand(4000, 4500));
-				Debugger::log($member->getFirstName());
-				$member->save();
+
 			}
 			else
 			{
-				$return->error = "Member ID is invalid.";
+				$return->error = "ID is invalid.";
 				echo json_encode($return);
 				return;
 			}
 		}
 		else
 		{
-			$return->error = "Member class was called without an Member ID defined";
+			$return->error = "Member class was called without an ID defined";
 			echo json_encode($return);
 			return;
 		}
@@ -56,6 +53,45 @@ class AdminUserUpdateController extends ModelController
 
 		$return->id = $params['id'];
 		$return->deleted = true;
+
+		echo json_encode($return);
+
+		return;
+	}
+
+	public function prefill()
+	{
+		$return = new stdClass;
+		$params = Request::getRequest();
+
+		//Config::set("HideDebugger", true); //comment this out to debug
+
+		if (isset($params['id']))
+		{
+			$user = $this->loadModel('com/passinggreen/member/Member', $params['id']);
+
+
+			if (isset($user) && $user->isValid())
+			{
+				$return->object = $user;
+			}
+			else
+			{
+				$return->error = "ID is invalid.";
+				echo json_encode($return);
+				return;
+			}
+		}
+
+		try
+		{
+			// Get prefilled data
+		} catch (Exception $e)
+		{
+			$return->error = $e->getMessage();
+		}
+
+		$return->id = $params['id'];
 
 		echo json_encode($return);
 

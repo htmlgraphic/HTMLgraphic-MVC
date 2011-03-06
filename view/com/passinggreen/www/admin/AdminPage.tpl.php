@@ -36,7 +36,7 @@
 							<div id="top-line"></div>
 							<div id="wrapper">
 			<?php if (!isset($login_form) || !$login_form) : ?>
-			<?php $this->loadView('admin/parts/TopNav', $nav); ?>
+			<?php $this->loadView('admin/parts/TopNav'); ?>
 			<?php else : ?>
 									&nbsp;
 			<?php endif; ?>

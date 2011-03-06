@@ -1,4 +1,5 @@
 <?php
+
 abstract class DBObjectManager
 {
 
@@ -1114,7 +1115,7 @@ abstract class DBObjectManager
 				{
 					Debugger::log("SELECTING ENTIRE TABLE! $sql\n");
 
-					throw new Exception("bad programmer, no cookie! {$this->managed_object()}");
+					//throw new Exception("bad programmer, no cookie! {$this->managed_object()}");
 				}
 				else
 				{
@@ -1175,7 +1176,7 @@ abstract class DBObjectManager
 				{
 					Debugger::log("SELECTING ENTIRE TABLE! $sql\n");
 
-					throw new Exception("bad programmer, no cookie! {$this->managed_object()}");
+					//throw new Exception("bad programmer, no cookie! {$this->managed_object()}");
 				}
 				else
 				{

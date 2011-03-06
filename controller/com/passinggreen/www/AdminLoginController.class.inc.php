@@ -40,6 +40,7 @@ class AdminLoginController extends AdminPageController
 
 		if ($valid)
 		{
+			$member->recordLogin();
 			Session::instance()->setModelDefault($member);
 			Debugger::log('valid');
 		}

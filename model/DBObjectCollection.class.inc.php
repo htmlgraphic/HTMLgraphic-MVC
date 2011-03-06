@@ -1,6 +1,5 @@
 <?php
 Loader::load("model", "DBObjectManager");
-Loader::load("model", "DBObjectManager");
 
 class DBObjectCollection extends DBObjectManager
 {

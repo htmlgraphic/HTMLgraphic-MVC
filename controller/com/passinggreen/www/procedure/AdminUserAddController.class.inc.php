@@ -13,39 +13,30 @@ class AdminUserAddController extends ModelController
 		$return = new stdClass;
 		$params = Request::getRequest();
 
-		//Config::set("HideDebugger", true); //comment this out to debug
+		Config::set("HideDebugger", true); //comment this out to debug
 
-		if (isset($params['id']))
+		/* if (Config::get("Member")->getID() == $params['id'])
+		  {
+		  $return->error = "Member ID is the same as user who is logged on. Will not delete.";
+		  echo json_encode($return);
+		  return;
+		  } */
+
+		$member = $this->loadModel('com/passinggreen/member/Member');
+
+		$member->setEmail($params['useremail']);
+		$member->setLevel($params['level']);
+		$member->setIsEnabled($params['is_enabled']);
+		$member->setFirstname($params['userFirstname']);
+		$member->setLastname($params['userLastname']);
+
+		if (!$member->save())
 		{
-			if (Config::get("Member")->getID() == $params['id'])
-			{
-				$return->error = "Member ID is the same as user who is logged on. Will not delete.";
-				echo json_encode($return);
-				return;
-			}
-
-			$member = $this->loadModel('com/passinggreen/member/Member', $params['id']);
-
-			if (isset($member) && $member->isValid())
-			{
-				Debugger::log($member->getFirstName());
-				$member->setFirstName("FirstName" . mt_rand(4000, 4500));
-				Debugger::log($member->getFirstName());
-				$member->save();
-			}
-			else
-			{
-				$return->error = "Member ID is invalid.";
-				echo json_encode($return);
-				return;
-			}
-		}
-		else
-		{
-			$return->error = "Member class was called without an Member ID defined";
+			$return->error = "Could not create Member object.";
 			echo json_encode($return);
 			return;
 		}
+
 		try
 		{
 			// do delete
@@ -54,8 +45,8 @@ class AdminUserAddController extends ModelController
 			$return->error = $e->getMessage();
 		}
 
-		$return->id = $params['id'];
-		$return->deleted = true;
+		$return->id = $member->getID();
+		$return->created = true;
 
 		echo json_encode($return);
 

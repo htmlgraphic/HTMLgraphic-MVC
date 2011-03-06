@@ -9,7 +9,8 @@ class Member extends DBObject
 	private static $stored_member;
 	private static $current_member = null;
 
-	const BASIC_USER = "member";
+	const BASIC_USER = "user";
+	const BASIC_MEMBER = "member";
 	const ADMIN_USER = "admin";
 	const GOD_USER = "superadmin";
 	public function __construct($mem_id = null)
@@ -160,6 +161,11 @@ class Member extends DBObject
 		return $this->getDBValue($this->primary_key());
 	}
 
+	function __toString()
+	{
+		return "Member: {$this->getID()}";
+	}
+
 	public function getPasswordHash()
 	{
 		return $this->getDBValue("passwd");
@@ -281,18 +287,6 @@ class Member extends DBObject
 		$this->setDBValue("last_ip", $value);
 	}
 
-	private $profile;
-
-	public function getProfile()
-	{
-		if ($this->profile)
-			return $this->profile;
-
-		Loader::load("model", "com/passinggreen/member/MemberProfile");
-		$this->profile = new MemberProfile($this);
-		return $this->profile;
-	}
-
 	public function getEmail()
 	{
 		return $this->getDBValue("useremail");
@@ -303,14 +297,24 @@ class Member extends DBObject
 		$this->setDBValue("useremail", $value);
 	}
 
-	public function setStatus($status)
+	public function setIsEnabled($value)
 	{
-		$this->setDBValue(self::$STATUS, $status);
+		$this->setDBValue("is_enabled", $value);
 	}
 
-	public function getStatus()
+	public function getIsEnabled()
 	{
-		return $this->getDBValue(self::$STATUS);
+		return $this->getDBValue("is_enabled");
+	}
+
+	public function setLevel($value)
+	{
+		$this->setDBValue("level", $value);
+	}
+
+	public function getLevel()
+	{
+		return $this->getDBValue("level");
 	}
 
 	function getCountry()
@@ -336,31 +340,6 @@ class Member extends DBObject
 		return false;
 	}
 
-	function isEmployee()
-	{
-		return $this->getEmployeeID();
-	}
-
-	function getEmployeeID()
-	{
-		Loader::load('model', 'com/htmlgraphic/employee/Employee');
-		$employee = Employee::lookupEmployeeWithMember($this);
-
-		if (isset($employee) && $employee->is_valid())
-		{
-			return $employee->getID();
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	function __toString()
-	{
-		return "Member: {$this->getID()}";
-	}
-
 	public function getLastLogin($format = "Y-m-d H:i:s")
 	{
 		$login = $this->getDBValue("last_login");
@@ -376,7 +355,7 @@ class Member extends DBObject
 	public function recordLogin()
 	{
 		$date = date('Y-m-d H:i:s');
-		$query = "UPDATE " . $this->table() . " SET last_login='$date' WHERE id='{$this->getID()}'";
+		$query = "UPDATE " . $this->table() . " SET `last_login`='$date' WHERE `AutoID`='{$this->getID()}'";
 		$submit = $this->db()->execute($query);
 	}
 
@@ -399,41 +378,6 @@ class Member extends DBObject
 		return false;
 	}
 
-	/* public function getPreference($type)
-	  {
-	  if (in_array($type, self::$table_settings))
-	  {
-	  return $this->getDBValue($type);
-	  }
-	  else
-	  {
-	  if (!isset($external_settings[$type]))
-	  {
-	  Loader::load('model', 'com/passinggreen/member/settings/MemberSettings');
-	  $this->external_settings[$type] = new MemberSettings($this, $type);
-	  }
-	  return $this->external_settings[$type]->getSetting();
-	  }
-	  }
-
-	  public function setPreference($type, $value, $delay_save = false)
-	  {
-	  if (in_array($type, self::$table_settings))
-	  {
-	  return $this->setDBValue($type, $value);
-	  }
-	  else
-	  {
-	  if (!isset($external_settings[$type]))
-	  {
-	  Loader::load('model', 'com/passinggreen/member/settings/MemberSettings');
-	  $this->external_settings[$type] = new MemberSettings($this, $type);
-	  }
-	  $this->external_settings[$type]->setSetting($value);
-	  if (!$delay_save)
-	  $this->external_settings[$type]->save();
-	  }
-	  } */
 	public static function emailFilter($email)
 	{
 		return array("column" => "useremail", "value" => $email);
@@ -442,6 +386,16 @@ class Member extends DBObject
 	public static function countryFilter(Country $country)
 	{
 		return array("column" => "userCountry", "value" => $country->getCountry());
+	}
+
+	public static function userFilter()
+	{
+		return array("column" => "level", "value" => self::BASIC_USER);
+	}
+
+	public static function memberFilter()
+	{
+		return array("column" => "level", "value" => self::BASIC_MEMBER);
 	}
 
 	public static function adminFilter()
