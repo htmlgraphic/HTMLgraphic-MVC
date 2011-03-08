@@ -15,42 +15,29 @@ class AdminUserAddController extends ModelController
 
 		Config::set("HideDebugger", true); //comment this out to debug
 
-		/* if (Config::get("Member")->getID() == $params['id'])
-		  {
-		  $return->error = "Member ID is the same as user who is logged on. Will not delete.";
-		  echo json_encode($return);
-		  return;
-		  } */
+		$user = $this->loadModel('com/passinggreen/member/Member');
 
-		$member = $this->loadModel('com/passinggreen/member/Member');
+		$user->setEmail($params['useremail']);
+		$user->setLevel($params['level']);
+		$user->setIsEnabled($params['is_enabled']);
+		$user->setFirstname($params['userFirstname']);
+		$user->setLastname($params['userLastname']);
 
-		$member->setEmail($params['useremail']);
-		$member->setLevel($params['level']);
-		$member->setIsEnabled($params['is_enabled']);
-		$member->setFirstname($params['userFirstname']);
-		$member->setLastname($params['userLastname']);
-
-		if (!$member->save())
+		if ($user->save())
 		{
-			$return->error = "Could not create Member object.";
+			$return->id = $user->getID();
+			$return->created = true;
+
 			echo json_encode($return);
 			return;
 		}
-
-		try
+		else
 		{
-			// do delete
-		} catch (Exception $e)
-		{
-			$return->error = $e->getMessage();
+			$return->error = "Could not create!";
+			
+			echo json_encode($return);
+			return;
 		}
-
-		$return->id = $member->getID();
-		$return->created = true;
-
-		echo json_encode($return);
-
-		return;
 	}
 
 }

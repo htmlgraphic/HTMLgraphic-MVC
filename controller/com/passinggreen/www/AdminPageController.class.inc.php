@@ -74,6 +74,7 @@ abstract class AdminPageController extends PageController
 		    '/admin-new/js/jquery.validator.js',
 		    '/admin-new/js/jquery.tablesorter.js',
 		    '/admin-new/js/jquery.tablesorter.pager.js',
+		    '/admin-new/js/jquery.dataTables.js',
 		    '/admin-new/js/jquery.daterangepicker.js',
 		    '/admin-new/js/jquery.maskedinput.js',
 		    '/admin-new/js/jquery.corners.js',
@@ -82,9 +83,7 @@ abstract class AdminPageController extends PageController
 		    '/admin-new/js/jquery.autoupload.js',
 		    '/admin-new/js/jquery.qtip.js',
 		    '/admin-new/js/general.js',
-		    '/admin-new/js/messagestack.js',
-		    '/admin-new/js/colorbox.js',
-		    '/admin-new/js/landing.js'
+		    '/admin-new/js/messagestack.js'
 		));
 
 		//$this->addPageData('nav/bgcolor', "#f66");

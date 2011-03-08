@@ -13,7 +13,7 @@ class AdminUserGetController extends ModelController
 		$return = new stdClass;
 		$params = Request::getRequest();
 
-		//Config::set("HideDebugger", true); //comment this out to debug
+		Config::set("HideDebugger", true); //comment this out to debug
 
 		if (isset($params['id']))
 		{
@@ -30,10 +30,17 @@ class AdminUserGetController extends ModelController
 			else
 			{
 				$return->error = "ID is invalid.";
-				
+
 				echo json_encode($return);
 				return;
 			}
+		}
+		else
+		{
+			$return->error = "Missing ID!";
+
+			echo json_encode($return);
+			return;
 		}
 	}
 

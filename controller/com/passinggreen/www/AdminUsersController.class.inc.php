@@ -13,13 +13,14 @@ class AdminUsersController extends AdminPageController
 		    'description' => 'Passing Green :: Administration :: Users'
 		));
 
+		$this->addPageData('header/assets/js', array(
+		    '/admin-new/js/user.js'
+		));
 
-		$members = DBObject::collection('Member', DBObject::CONSISTENCY_ABSOLUTE);
-		$members->applySort("AutoID");
+		$user = DBObject::collection('Member', DBObject::CONSISTENCY_ABSOLUTE);
+		$user->applySort("AutoID");
 
-		//Debugger::log(Var_Dump::display($members->getMembers(), true));
-		
-		$this->addPageData('body/members', $members->getMembers());
+		$this->addPageData('body/users', $user->getMembers());
 
 		$this->loadPage();
 	}
