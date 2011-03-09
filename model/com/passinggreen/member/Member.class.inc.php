@@ -173,7 +173,7 @@ class Member extends DBObject
 
 	public function setPassword($password)
 	{
-		$passwordHash = hash('sha256', $password);
+		$passwordHash = hash('sha1', $password);
 		$this->setPasswordHash($passwordHash);
 	}
 
@@ -329,7 +329,7 @@ class Member extends DBObject
 
 	function validatePassword($password)
 	{
-		$query = "SELECT `AutoID` FROM `" . $this->table() . "` WHERE `passwd` = '" . hash('sha256', $password) . "' && `AutoID` = '{$this->getID()}'";
+		$query = "SELECT `AutoID` FROM `" . $this->table() . "` WHERE `passwd` = '" . hash('sha1', $password) . "' && `AutoID` = '{$this->getID()}'";
 		$result = DatabaseFactory::passinggreen_master_db()->query($query);
 
 		if ($result && $result->num_rows)
