@@ -16,7 +16,11 @@
 						<label>First Name:</label><input type="text" name="userFirstname" class="required" value="" />
 						<label>Last Name:</label><input type="text" name="userLastname" class="required" value="" />
 						<label>Email Address:</label><input type="text" name="useremail" class="required email" value="" />
-						<label>Phone:</label><input type="text" name="userPhone" class="required email" value="" />
+						<label>Phone:</label><input type="text" name="userPhone" class="required" value="" />
+						<label>Last Name:</label><input type="text" name="userLastname" class="required" value="" />
+						<label>Last Name:</label><input type="text" name="userLastname" class="required" value="" />
+						<label>Last Name:</label><input type="text" name="userLastname" class="required" value="" />
+						<label>Last Name:</label><input type="text" name="userLastname" class="required" value="" />
 						<label>Comments:</label>
 						<textarea name="comments" rows="4" cols="10"></textarea>
 					</div>
@@ -37,18 +41,31 @@
 					<div class="col">
 						<label>Company Name:</label><input type="text" name="userCompany" class="required" value="" />
 						<label>Company Address 1:</label><input type="text" name="userAddr1" class="required" value="" />
-						<label>Company Address 2:</label><input type="text" name="userAddr2" class="required email" value="" />
-						<label>Company City:</label><input type="text" name="userCity" class="required email" value="" />
-						<label>Company State:</label><input type="text" name="userState" class="required email" value="" />
-						<label>Company ZIP:</label><input type="text" name="userZip" class="required email" value="" />
-						<label>Company Country:</label><input type="text" name="userCountry" class="required email" value="" />
-						<label>Company Phone:</label><input type="text" name="userAltPhone" class="required email" value="" />
-						<label>Company Fax:</label><input type="text" name="userFax" class="required email" value="" />
+						<label>Company Address 2:</label><input type="text" name="userAddr2" class="" value="" />
+						<label>Company City:</label><input type="text" name="userCity" class="required" value="" />
+						<label>Company State:</label><input type="text" name="userState" class="required" value="" />
+						<label>Company ZIP:</label><input type="text" name="userZip" class="required" value="" />
+						<label>Company Country:</label><input type="text" name="userCountry" class="required" value="" />
+						<label>Company Phone:</label><input type="text" name="userAltPhone" class="required" value="" />
+						<label>Company Fax:</label><input type="text" name="userFax" class="" value="" />
 					</div>
-					<div class="col">&nbsp;</div>
+					<div class="col">
+						<label>Company URL:</label><input type="text" name="web" class="" value="" />
+						<label>Bio:</label>
+						<textarea name="userBio" rows="10" cols="10"></textarea>
+					</div>
 				</div>
 			</div>
-			<div id="new-tab-3"></div>
+			<div id="new-tab-3">
+				<div class="clear">
+					<label>Payment Type:</label><input type="text" name="paymentType" class="" value="" />
+					<label>Payment Type Details:</label><input type="text" name="paymentTypeDetails" class="" value="" />
+					<label>Credit Card Error:</label><input type="text" name="ccError" class="" value="" />
+					<label>Credit Card Details:</label><input type="text" name="ccDetails" class="" value="" />
+					<label>Credit Card Status:</label><input type="text" name="ccStatus" class="" value="" />
+					<label>Credit Card Code:</label><input type="text" name="ccTCode" class="" value="" />
+				</div>
+			</div>
 			<div id="new-tab-4"></div>
 		</div>
 	</fieldset>

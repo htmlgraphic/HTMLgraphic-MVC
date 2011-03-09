@@ -344,7 +344,7 @@ class Member extends DBObject
 	{
 		$login = $this->getDBValue("last_login");
 
-		if ($login == "0000-00-00 00:00:00")
+		if ($login == "0000-00-00 00:00:00" || !$login)
 		{
 			return;
 		}
