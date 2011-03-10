@@ -1,6 +1,7 @@
 <?php
 
-Loader::load("controller", "/controller/ModelController");
+Loader::load('controller', '/controller/ModelController');
+Loader::load('model', 'com/passinggreen/member/Member');
 
 class AdminUserGetController extends ModelController {
 
@@ -15,11 +16,12 @@ class AdminUserGetController extends ModelController {
         Config::set("HideDebugger", true); //comment this out to debug
 
         if (isset($params['id'])) {
-            $user = $this->loadModel('com/passinggreen/member/Member', $params['id']);
+            $user = new Member($params['id']);
 
             if (isset($user) && $user->isValid()) {
                 $return->id = $user->getID();
                 $return->user = $user->toArray();
+                $return->user['siteAreas[]'] = explode(',', $return->user['siteAreas']);
                 $return->user['balance'] = number_format(40.50, 2);
 
                 echo json_encode($return);

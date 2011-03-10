@@ -1,74 +1,61 @@
 <?php
+
 Loader::load('controller', 'AdminPageController');
 
-class AdminLoginController extends AdminPageController
-{
-	function activate()
-	{
-		if (isset($_GET['destroy']))
-		{
-			$this->logout();
-			$this->redirect('/admin/');
-		}
-		elseif (Request::getPost())
-		{
-			$this->login();
-		}
-		elseif (Config::get('Member'))
-		{
-			// continue to requested page
-		}
-		else
-		{
-			$this->show_form();
-		}
-	}
+class AdminLoginController extends AdminPageController {
 
-	private function login()
-	{
-		Loader::load('utility', 'session/Session');
-		Loader::load('model', 'com/passinggreen/member/Member'
-		);
+    function activate() {
+        if (isset($_GET['destroy'])) {
+            $this->logout();
+            $this->redirect('/admin/');
+        } elseif (Request::getPost()) {
+            $this->login();
+        } elseif (Config::get('Member')) {
+            // continue to requested page
+        } else {
+            $this->show_form();
+        }
+    }
 
-		$member = Member::findMemberWithEmail(addslashes(Request::getPost('email')));
-		$valid = false;
+    private function login() {
+        Loader::load('utility', 'session/Session');
+        Loader::load('model', 'com/passinggreen/member/Member'
+        );
 
-		if (isset($member) && $member->isValid())
-		{
-			$valid = ($member->validatePassword(Request::getPost('password')));
-		}
+        $member = Member::findMemberWithEmail(addslashes(Request::getPost('email')));
+        $valid = false;
 
-		if ($valid)
-		{
-			$member->recordLogin();
-			Session::instance()->setModelDefault($member);
-			Debugger::log('valid');
-		}
-		else
-		{
-			Debugger::log('invalid');
-			$this->setPageData('error', 'Incorrect username or password.');
-			$this->show_form();
-		}
-	}
+        if (isset($member) && $member->isValid() && ($member->getLevel() == 'admin' || $member->getLevel() == 'superadmin' || $member->getLevel() == 'developer')) {
+            $valid = ($member->validatePassword(Request::getPost('password')));
+        }
 
-	private function logout()
-	{
-		Session::instance()->clearModelDefaultForClassName('Member');
-		Config::set('Member', null);
-	}
+        if ($valid) {
+            $member->recordLogin();
+            Session::instance()->setModelDefault($member);
+            Debugger::log('valid');
+        } else {
+            Debugger::log('invalid');
+            $this->setPageData('error', 'Incorrect username or password.');
+            $this->show_form();
+        }
+    }
 
-	private function show_form()
-	{
-		$this->setPageData('header/title', 'Admin Login');
-		$this->setPageView('admin/AdminPage');
-		$this->setBodyView('admin/body/Login');
+    private function logout() {
+        Session::instance()->clearModelDefaultForClassName('Member');
+        Config::set('Member', null);
+    }
 
-		$this->addPageData('login_form', true);
+    private function show_form() {
+        $this->setPageData('header/title', 'Admin Login');
+        $this->setPageView('admin/AdminPage');
+        $this->setBodyView('admin/body/Login');
 
-		$this->loadPage();
-		exit;
-	}
+        $this->addPageData('login_form', true);
+
+        $this->loadPage();
+        exit;
+    }
 
 }
+
 ?>

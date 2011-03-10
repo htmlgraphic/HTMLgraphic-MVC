@@ -20,11 +20,21 @@
                         <label>Address:</label><input type="text" name="shipAddr1" class="required" value="" /><br />
                         <input type="text" name="shipAddr2" class="required" value="" />
                         <label>City:</label><input type="text" name="shipCity" class="required" value="" />
-                        <label>State:</label><input type="text" name="shipState" class="required" value="" />
+                        <label>State:</label>
+                        <select name="shipState" class="required">
+                            <option value="">--Select--</option>
+                            <?php foreach ($provinces as $province) : ?>
+                                <option value="<?= $province->getID() ?>"><?= $province->getProvince() ?></option>
+                            <?php endforeach; ?>
+                        </select>
                         <label>ZIP:</label><input type="text" name="shipZip" class="required" value="" />
-                        <label>Country:</label><input type="text" name="shipCountry" class="required" value="" />
-                        <!--<label>Comments:</label>
-                        <textarea name="comments" rows="4" cols="10"></textarea>-->
+                        <label>Country:</label>
+                        <select name="shipCountry">
+                            <option value="">--Select--</option>
+                            <?php foreach ($countries as $country) : ?>
+                                <option value="<?= $country->getID() ?>"><?= $country->getCountry() ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                     <div class="col">						<label>Status:</label>
                         <select name="is_enabled">
@@ -35,9 +45,14 @@
                         <select name="level">
                             <option value="user">User</option>
                             <option value="member">Member</option>
+                            <option value="admin">Admin</option>
                         </select>
-                        <label>Updates? <input type="checkbox" name="siteAreas[]" value="updates" /></label>
+                        <label>Updates? <input type="checkbox" name="updates" value="yes" /></label>
+                        <label>&nbsp;</label>
+                        <label>Site Areas:</label>
                         <label>Admin? <input type="checkbox" name="siteAreas[]" value="admin" /></label>
+                        <label>Contact? <input type="checkbox" name="siteAreas[]" value="contact" /></label>
+                        <label>&nbsp;</label>
                         <label>Balance (USD):</label> $<input type="text" name="balance" value="0.00" readonly="readonly"/>
                     </div>
                 </div>
@@ -49,9 +64,21 @@
                         <label>Address 1:</label><input type="text" name="userAddr1" class="required" value="" />
                         <label>Address 2:</label><input type="text" name="userAddr2" class="" value="" />
                         <label>City:</label><input type="text" name="userCity" class="required" value="" />
-                        <label>State:</label><input type="text" name="userState" class="required" value="" />
+                        <label>State:</label>
+                        <select name="userState">
+                            <option value="">--Select--</option>
+                            <?php foreach ($provinces as $province) : ?>
+                                <option value="<?= $province->getID() ?>"><?= $province->getProvince() ?></option>
+                            <?php endforeach; ?>
+                        </select>
                         <label>ZIP:</label><input type="text" name="userZip" class="required" value="" />
-                        <label>Country:</label><input type="text" name="userCountry" class="required" value="" />
+                        <label>Country:</label>
+                        <select name="userCountry">
+                            <option value="">--Select--</option>
+                            <?php foreach ($countries as $country) : ?>
+                                <option value="<?= $country->getID() ?>"><?= $country->getCountry() ?></option>
+                            <?php endforeach; ?>
+                        </select>
                         <label>Phone:</label><input type="text" name="userAltPhone" class="required" value="" />
                         <label>Fax:</label><input type="text" name="userFax" class="" value="" />
                     </div>
@@ -65,6 +92,7 @@
                                 <option value="<?= $business_category->getID() ?>"><?= $business_category->getCategory() ?></option>
                             <?php endforeach; ?>
                         </select>
+                        <label>Category:</label>
                         <select name="userCompanyType[]">
                             <?php foreach ($business_categories as $business_category) : ?>
                                 <option value="<?= $business_category->getID() ?>"><?= $business_category->getCategory() ?></option>
