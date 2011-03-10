@@ -1,5 +1,6 @@
 <?php
 Loader::load('controller', 'AdminPageController');
+Loader::load('model', 'com/passinggreen/BusinessCategory');
 
 class AdminUsersController extends AdminPageController
 {
@@ -19,8 +20,12 @@ class AdminUsersController extends AdminPageController
 
 		$user = DBObject::collection('Member', DBObject::CONSISTENCY_ABSOLUTE);
 		$user->applySort("AutoID");
+                
+                $business_categories = DBObject::collection('BusinessCategory', DBObject::CONSISTENCY_ABSOLUTE);
+                $business_categories->applySort("category");
 
 		$this->addPageData('body/users', $user->getMembers());
+                $this->addPageData('body/UserEditForm/business_categories', $business_categories->getBusinessCategories());
 
 		$this->loadPage();
 	}

@@ -20,6 +20,7 @@ class AdminUserGetController extends ModelController {
             if (isset($user) && $user->isValid()) {
                 $return->id = $user->getID();
                 $return->user = $user->toArray();
+                $return->user['balance'] = number_format(40.50, 2);
 
                 echo json_encode($return);
                 return;

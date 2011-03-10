@@ -4,7 +4,7 @@
             bPaginate: true,
             sPaginationType: "full_numbers",
             bLengthChange: true,
-            bFilter: true,
+            bFilter: false,
             bSort: true,
             bInfo: true,
             bProcessing: true,
@@ -27,29 +27,14 @@
                 <th width="125">First Name</th>
                 <th>Email</th>
                 <th width="75">Level</th>
-                <th width="75">Status</th>
+                <th width="75">Enabled?</th>
                 <th width="110">Last Login</th>
                 <th width="30"></th>
             </tr>
         </thead>
         <tbody>
-            <?php /* foreach ($users as $user): ?>
-              <tr id="user_<?=$user->getID()?>">
-              <td><?= $user->getID() ?></td>
-              <td><?= $user->getFirstname() ?></td>
-              <td><?= $user->getLastname() ?></td>
-              <td><?= $user->getEmail() ?></td>
-              <td><?= $user->getLevel() ?></td>
-              <td><?= $user->getIsEnabled() ?></td>
-              <td><?= $user->getLastLogin() ?></td>
-              <td>
-              <a onclick="editUser('<?= $user->getID() ?>');"><span class="ui-icon ui-icon-wrench"></span></a>
-              <a onclick="deleteUser('<?= $user->getID() ?>');"><span class="ui-icon ui-icon-trash"></span></a>
-              </td>
-              </tr>
-              <?php endforeach; */ ?>
         </tbody>
     </table>
 </div>
-<?php $this->loadView('admin/parts/UserEditForm'); ?>
+<?php $this->loadView('admin/parts/UserEditForm', $UserEditForm); ?>
 <?php $this->loadView('admin/parts/UserDeleteForm'); ?>
