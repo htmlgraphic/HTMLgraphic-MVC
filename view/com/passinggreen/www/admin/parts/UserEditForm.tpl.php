@@ -103,15 +103,37 @@
             </div>
             <div id="new-tab-3">
                 <div class="clear">
-                    <label>Payment Type:</label><input type="text" name="paymentType" class="" value="" />
-                    <label>Payment Type Details:</label><input type="text" name="paymentTypeDetails" class="" value="" />
-                    <label>Credit Card Error:</label><input type="text" name="ccError" class="" value="" />
-                    <label>Credit Card Details:</label><input type="text" name="ccDetails" class="" value="" />
-                    <label>Credit Card Status:</label><input type="text" name="ccStatus" class="" value="" />
-                    <label>Credit Card Code:</label><input type="text" name="ccTCode" class="" value="" />
+                    <div class="col">
+                        <label>Payment Type:</label><input type="text" name="paymentType" class="" value="" />
+                        <label>Payment Notes:</label><input type="text" name="paymentTypeDetails" class="" value="" />
+                        <label>Payment Status:</label><input type="text" name="ccc_status" class="" value="" readonly="readonly" />
+                        <label>Name:</label><input type="text" name="ccc_name" class="" value="" readonly="readonly" />
+                        <label>Credit Card Status:</label><input type="text" name="ccc_tcode" class="" value="" readonly="readonly" />
+                        <label>Credit Card:</label><input type="text" name="ccc_ccNum" class="" value="" readonly="readonly" />
+                        <label>Month:</label><input type="text" name="ccc_MM" class="" value="" readonly="readonly" />
+                        <label>Year:</label><input type="text" name="ccc_YY" class="" value="" readonly="readonly" />
+                        <label>Verification Code:</label><input type="text" name="ccc_ccCode" class="" value="" readonly="readonly" />
+                    </div>
+                    <div class="col">
+                        <label>CC Column Value &quot;Details&quot;</label>
+                        <textarea rows="20" cols="20" name="ccc" readonly="readonly"></textarea>
+                    </div>
                 </div>
             </div>
-            <div id="new-tab-4"></div>
+            <div id="new-tab-4">
+                <div class="clear">
+                    <div class="col">
+                        <label>Referral(s) Passed:</label>
+                        <input type="text" name="referralsPassed" class="" value="" readonly="readonly" />
+                        <label>Account Balance ($USD):</label>
+                        <input type="text" name="accountBalance" class="" value="" readonly="readonly" />
+                        <label>Referral(s) Received:</label>
+                        <input type="text" name="referralsReceived" class="" value="" readonly="readonly" />
+                        <label>Commission Due ($USD):</label>
+                        <input type="text" name="commissionDue" class="" value="" readonly="readonly" />
+                    </div>                    
+                </div>
+            </div>
         </div>
     </fieldset>
 </form>
