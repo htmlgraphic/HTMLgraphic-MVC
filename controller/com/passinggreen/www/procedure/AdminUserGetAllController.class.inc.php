@@ -15,7 +15,7 @@ class AdminUserGetAllController extends ModelController {
         Config::set("HideDebugger", true); //comment this out to debug
 
         $users = DBObject::collection('Member', DBObject::CONSISTENCY_ABSOLUTE);
-        $fullCount = $users->getMembersCount();
+        $fullCount = $users->getMemberCount();
 
         $users = DBObject::collection('Member', DBObject::CONSISTENCY_ABSOLUTE);
         $users->setRange($params['iDisplayStart'], $params['iDisplayLength']);
@@ -58,7 +58,7 @@ class AdminUserGetAllController extends ModelController {
             $row[] = $_user->getLevel();
             $row[] = $_user->getIsEnabled();
             $row[] = $_user->getLastLogin();
-            $row[] = "<a onclick=\"editUser('" . $_user->getID() . "');\"><span class=\"ui-icon ui-icon-wrench\"></span></a><a onclick=\"deleteUser('" . $_user->getID() . "');\"><span class=\"ui-icon ui-icon-trash\"></span></a>";
+            $row[] = "<a onclick=\"editUser(this, '" . $_user->getID() . "');\"><span class=\"ui-icon ui-icon-wrench\"></span></a><a onclick=\"deleteUser(this, '" . $_user->getID() . "');\"><span class=\"ui-icon ui-icon-trash\"></span></a>";
 
             $return['aaData'][] = $row;
         }

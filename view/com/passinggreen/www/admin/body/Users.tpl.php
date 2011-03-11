@@ -1,6 +1,8 @@
 <script type="text/javascript">
+    var UserDataTable;
+    
     $(function() {
-        $('#user-table').dataTable({
+        UserDataTable = $('#user-table').dataTable({
             bPaginate: true,
             sPaginationType: "full_numbers",
             bLengthChange: true,
