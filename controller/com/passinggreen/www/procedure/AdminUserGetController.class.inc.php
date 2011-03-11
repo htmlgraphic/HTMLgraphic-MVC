@@ -21,6 +21,7 @@ class AdminUserGetController extends ModelController {
             if (isset($user) && $user->isValid()) {
                 $return->id = $user->getID();
                 $return->user = $user->toArray();
+                $return->user['userCompanyType[]'] = unserialize($return->user['userCompanyType']);
                 $return->user['siteAreas[]'] = explode(',', $return->user['siteAreas']);
                 $return->user['balance'] = number_format(40.50, 2);
 

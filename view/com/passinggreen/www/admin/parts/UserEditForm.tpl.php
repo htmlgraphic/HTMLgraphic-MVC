@@ -1,4 +1,4 @@
-<form action="/admin-new/rpc/Admin/User/Add" method="post" id="frm-user-edit" class="dialog validated">
+<form action="javascript:void(0);" method="post" id="frm-user-edit" class="dialog validated">
     <fieldset class="hidden">
         <input type="hidden" name="id" value="" />
     </fieldset>
@@ -36,13 +36,14 @@
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="col">						<label>Status:</label>
+                    <div class="col">
+                        <label>Status:</label>
                         <select name="is_enabled">
                             <option value="yes">Enabled</option>
                             <option value="no">Disabled</option>
                         </select>
                         <label>Type:</label>
-                        <select name="level">
+                        <select name="level" onchange="evt_levelChange(this);">
                             <option value="user">User</option>
                             <option value="member">Member</option>
                             <option value="admin">Admin</option>
@@ -88,12 +89,14 @@
                         <textarea name="userBio" rows="10" cols="10"></textarea>
                         <label>Category:</label>
                         <select name="userCompanyType[]">
+                            <option value="">--Select--</option>
                             <?php foreach ($business_categories as $business_category) : ?>
                                 <option value="<?= $business_category->getID() ?>"><?= $business_category->getCategory() ?></option>
                             <?php endforeach; ?>
                         </select>
                         <label>Category:</label>
                         <select name="userCompanyType[]">
+                            <option value="">--Select--</option>
                             <?php foreach ($business_categories as $business_category) : ?>
                                 <option value="<?= $business_category->getID() ?>"><?= $business_category->getCategory() ?></option>
                             <?php endforeach; ?>
@@ -131,7 +134,7 @@
                         <input type="text" name="referralsReceived" class="" value="" readonly="readonly" />
                         <label>Commission Due ($USD):</label>
                         <input type="text" name="commissionDue" class="" value="" readonly="readonly" />
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>
