@@ -106,18 +106,15 @@ class AdminUserGetController extends ModelController {
                 $return->user["referralsReceived"] = $user_referrals_received;
                 $return->user["accountBalance"] = number_format($user_balance, 2);
                 $return->user["commissionDue"] = number_format($user_commission, 2);
-
                 echo json_encode($return);
                 return;
             } else {
                 $return->error = "ID is invalid.";
-
                 echo json_encode($return);
                 return;
             }
         } else {
             $return->error = "Missing ID!";
-
             echo json_encode($return);
             return;
         }

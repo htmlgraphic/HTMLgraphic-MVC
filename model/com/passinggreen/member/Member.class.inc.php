@@ -1,6 +1,6 @@
 <?php
 
-Loader::load('model', array(
+Loader::load("model", array(
             "DBObject"
         ));
 
@@ -89,7 +89,7 @@ class Member extends DBObject {
         return $this->getDBValue($this->primary_key());
     }
 
-    function __toString() {
+    public function __toString() {
         return "Member: {$this->getID()}";
     }
 
@@ -122,71 +122,71 @@ class Member extends DBObject {
         return $this->getDBValue("userLastname");
     }
 
-    function setLastName($value) {
+    public function setLastName($value) {
         $this->setDBValue("userLastname", $value);
     }
 
-    function getAddress1() {
+    public function getAddress1() {
         return $this->getDBValue("userAddr1");
     }
 
-    function setAddress1($value) {
+    public function setAddress1($value) {
         $this->setDBValue("userAddr1", $value);
     }
 
-    function getAddress2() {
+    public function getAddress2() {
         return $this->getDBValue("userAddr2");
     }
 
-    function setAddress2($value) {
+    public function setAddress2($value) {
         $this->setDBValue("userAddr2", $value);
     }
 
-    function getCity() {
+    public function getCity() {
         return $this->getDBValue("userCity");
     }
 
-    function setCity($value) {
+    public function setCity($value) {
         $this->setDBValue("userCity", $value);
     }
 
-    function getState() {
+    public function getState() {
         return $this->getDBValue("userState");
     }
 
-    function setState($value) {
+    public function setState($value) {
         $this->setDBValue("userState", $value);
     }
 
-    function getZipCode() {
+    public function getZipCode() {
         return $this->getDBValue("userZip");
     }
 
-    function setZipCode($value) {
+    public function setZipCode($value) {
         $this->setDBValue("userZip", $value);
     }
 
-    function getPhoneNumber() {
+    public function getPhoneNumber() {
         return $this->getDBValue("userPhone");
     }
 
-    function setPhoneNumber($value) {
+    public function setPhoneNumber($value) {
         $this->setDBValue("userPhone", $value);
     }
 
-    function getBusinessName() {
+    public function getBusinessName() {
         return $this->getDBValue("userCompany");
     }
 
-    function setBusinessName($value) {
+    public function setBusinessName($value) {
         $this->setDBValue("userCompany", $value);
     }
 
-    function getIP() {
+    public function getIP() {
         return $this->getDBValue("last_ip");
     }
 
-    function setIP($value) {
+    public function setIP($value) {
         $this->setDBValue("last_ip", $value);
     }
 
@@ -194,7 +194,7 @@ class Member extends DBObject {
         return $this->getDBValue("useremail");
     }
 
-    function setEmail($value) {
+    public function setEmail($value) {
         $this->setDBValue("useremail", $value);
     }
 
@@ -214,23 +214,31 @@ class Member extends DBObject {
         return $this->getDBValue("level");
     }
 
-    function getCountry() {
+    public function getCountry() {
         return $this->getDBValue("userCountry");
     }
 
-    function setCountry($value) {
+    public function setCountry($value) {
         $this->setDBValue("userCountry", $value);
     }
 
-    function getCC() {
+    public function getShipAddr1() {
+        return $this->getDBValue("shipAddr1");
+    }
+
+    public function setShipAddr1($value) {
+        $this->setDBValue("shipAddr1", $value);
+    }
+
+    public function getCC() {
         return $this->getDBValue("cc");
     }
 
-    function setCC($value) {
+    public function setCC($value) {
         $this->setDBValue("cc", $value);
     }
 
-    function validatePassword($password) {
+    public function validatePassword($password) {
         $query = "SELECT `AutoID` FROM `" . $this->table() . "` WHERE `passwd` = '" . hash('sha1', $password) . "' && `AutoID` = '{$this->getID()}'";
         $result = DatabaseFactory::passinggreen_master_db()->query($query);
 

@@ -12,7 +12,7 @@ class AdminUserGetAllController extends ModelController {
         $return = new stdClass;
         $params = Request::getRequest();
 
-        Config::set("HideDebugger", true); //comment this out to debug
+        Config::set("HideDebugger", true);
 
         $users = DBObject::collection("Member", DBObject::CONSISTENCY_ABSOLUTE);
         $fullCount = $users->getMemberCount();

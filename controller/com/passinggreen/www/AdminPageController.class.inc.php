@@ -75,6 +75,7 @@ abstract class AdminPageController extends PageController {
             '/admin-new/js/jquery.tablesorter.pager.js',
             '/admin-new/js/jquery.dataTables.js',
             '/admin-new/js/jquery.daterangepicker.js',
+            '/admin-new/js/jquery.form.js',
             '/admin-new/js/jquery.maskedinput.js',
             '/admin-new/js/jquery.corners.js',
             '/admin-new/js/jquery.hoverintent.js',
