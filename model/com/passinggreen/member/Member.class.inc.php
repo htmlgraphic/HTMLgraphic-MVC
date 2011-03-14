@@ -222,6 +222,14 @@ class Member extends DBObject {
         $this->setDBValue("userCountry", $value);
     }
 
+    function getCC() {
+        return $this->getDBValue("cc");
+    }
+
+    function setCC($value) {
+        $this->setDBValue("cc", $value);
+    }
+
     function validatePassword($password) {
         $query = "SELECT `AutoID` FROM `" . $this->table() . "` WHERE `passwd` = '" . hash('sha1', $password) . "' && `AutoID` = '{$this->getID()}'";
         $result = DatabaseFactory::passinggreen_master_db()->query($query);
