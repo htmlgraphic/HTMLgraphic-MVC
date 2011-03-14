@@ -4,7 +4,7 @@
     $(function() {
         UserDataTable = $('#user-table').dataTable({
             bPaginate: true,
-            sPaginationType: "full_numbers",
+            //sPaginationType: "full_numbers",
             bLengthChange: true,
             bFilter: false,
             bSort: true,

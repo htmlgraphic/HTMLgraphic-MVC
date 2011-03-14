@@ -44,7 +44,8 @@ class AdminUserGetAllController extends ModelController {
         $return = array(
             'sEcho' => $params['sEcho'],
             'iTotalRecords' => $fullCount,
-            'iTotalDisplayRecords' => $params['iDisplayLength'],
+            //'iTotalDisplayRecords' => $params['iDisplayLength'],
+            'iTotalDisplayRecords' => $fullCount,
             'aaData' => array()
         );
 
