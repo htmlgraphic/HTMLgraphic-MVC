@@ -48,6 +48,8 @@
                             <option value="member">Member</option>
                             <option value="admin">Admin</option>
                         </select>
+                        <label>Password:</label>
+                        <input type="text" name="passwd" value="" />
                         <label>Updates? <input type="checkbox" name="updates" value="yes" /></label>
                         <label>&nbsp;</label>
                         <label>Site Areas:</label>

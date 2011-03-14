@@ -88,8 +88,9 @@ class AdminUserGetController extends ModelController {
 
                 $return->id = $user->getID(); // object id
                 $return->user = $user->toArray(); // set the base return, values can be overridden below.
-                $return->user["userCompanyType[]"] = unserialize($return->user['userCompanyType']);
-                $return->user["siteAreas[]"] = explode(',', $return->user['siteAreas']);
+                $return->user["userCompanyType[]"] = $user->getUserCompanyType();
+                $return->user["siteAreas[]"] = $user->getSiteAreas();
+                $return->user["passwd"] = null;
                 $return->user["balance"] = number_format($user_balance, 2);
 
                 if (!is_null($decoded_cc_data)) {

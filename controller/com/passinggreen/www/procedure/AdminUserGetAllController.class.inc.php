@@ -52,9 +52,9 @@ class AdminUserGetAllController extends ModelController {
             $row = array();
 
             $row[] = $_user->getID();
-            $row[] = $_user->getFirstname();
-            $row[] = $_user->getLastname();
-            $row[] = $_user->getEmail();
+            $row[] = $_user->getUserFirstname();
+            $row[] = $_user->getUserLastname();
+            $row[] = $_user->getUserEmail();
             $row[] = $_user->getLevel();
             $row[] = $_user->getIsEnabled();
             $row[] = $_user->getLastLogin();
