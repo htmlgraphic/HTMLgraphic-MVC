@@ -42,7 +42,7 @@ class CryptKey extends DBObject {
         return $this->getDBValue($this->primary_key());
     }
 
-    function __toString() {
+    public function __toString() {
         return "CryptKey: {$this->getID()}";
     }
 

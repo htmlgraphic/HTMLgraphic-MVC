@@ -2,9 +2,8 @@
     var UserDataTable;
     
     $(function() {
-        UserDataTable = $('#user-table').dataTable({
+        UserDataTable = $("#user-table").dataTable({
             bPaginate: true,
-            //sPaginationType: "full_numbers",
             bLengthChange: true,
             bFilter: false,
             bSort: true,
@@ -38,5 +37,5 @@
         </tbody>
     </table>
 </div>
-<?php $this->loadView('admin/parts/UserEditForm', $UserEditForm); ?>
-<?php $this->loadView('admin/parts/UserDeleteForm'); ?>
+<?php $this->loadView("admin/parts/UserEditForm", $UserEditForm); ?>
+<?php $this->loadView("admin/parts/UserDeleteForm"); ?>

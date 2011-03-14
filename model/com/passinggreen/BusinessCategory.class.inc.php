@@ -42,7 +42,7 @@ class BusinessCategory extends DBObject {
         return $this->getDBValue($this->primary_key());
     }
 
-    function __toString() {
+    public function __toString() {
         return "Business Category: {$this->getID()}";
     }
 
