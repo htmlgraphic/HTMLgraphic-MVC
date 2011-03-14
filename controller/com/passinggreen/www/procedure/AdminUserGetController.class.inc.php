@@ -17,7 +17,7 @@ class AdminUserGetController extends ModelController {
         $return = new stdClass;
         $params = Request::getRequest();
 
-        //Config::set("HideDebugger", true); //comment this out to debug
+        Config::set("HideDebugger", true); //comment this out to debug
 
         if (isset($params["id"])) {
             $user = new Member($params["id"]);
@@ -62,7 +62,7 @@ class AdminUserGetController extends ModelController {
                         $user_balance += $user_transactions_row->amount;
                         //$referrals_passed[] = $row;
                     } else if ($user_transactions_row->VendorID == $user->getID()) {
-                        $commission += $user_transactions_row->amount;
+                        $user_commission += $user_transactions_row->amount;
                         //$referrals_received[] = $row;
                     }
 
@@ -104,6 +104,8 @@ class AdminUserGetController extends ModelController {
 
                 $return->user["referralsPassed"] = $user_referrals_passed;
                 $return->user["referralsReceived"] = $user_referrals_received;
+                $return->user["accountBalance"] = number_format($user_balance, 2);
+                $return->user["commissionDue"] = number_format($user_commission, 2);
 
                 echo json_encode($return);
                 return;
