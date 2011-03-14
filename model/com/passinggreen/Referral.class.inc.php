@@ -52,16 +52,32 @@ class Referral extends DBObject {
         return $this->getDBValue("UserID");
     }
 
+    public function setUserID($value) {
+        $this->setDBValue("UserID", $value);
+    }
+
     public function getVendorID() {
         return $this->getDBValue("VendorID");
+    }
+
+    public function setVendorID($value) {
+        $this->setDBValue("VendorID", $value);
     }
 
     public function getPriority() {
         return $this->getDBValue("priority");
     }
 
+    public function setPriority($value) {
+        $this->setDBValue("priority", $value);
+    }
+
     public function getStatus() {
         return $this->getDBValue("status");
+    }
+
+    public function setStatus($value) {
+        $this->setDBValue("status", $value);
     }
 
     public function getDateAdded($format = "Y-m-d H:i:s") {
@@ -98,12 +114,24 @@ class Referral extends DBObject {
         return $this->getDBValue("saleAmount");
     }
 
+    public function setSaleAmount($value) {
+        $this->setDBValue("saleAmount", $value);
+    }
+
     public function getReferralData() {
         return unserialize($this->getDBValue("referralData"));
     }
 
+    public function setReferralData($value) {
+        $this->setDBValue("referralData", serialize($value));
+    }
+
     public function getNeed() {
         return $this->getDBValue("need");
+    }
+
+    public function setNeed($value) {
+        $this->setDBValue("need", $value);
     }
 
     public static function userIDFilter($value) {

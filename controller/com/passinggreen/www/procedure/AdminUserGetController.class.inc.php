@@ -3,6 +3,7 @@
 Loader::load("controller", "/controller/ModelController");
 Loader::load("model", "com/passinggreen/member/Member");
 Loader::load("model", "com/passinggreen/Referral");
+Loader::load("model", "com/passinggreen/Transaction");
 Loader::load("model", "com/passinggreen/CryptKey");
 Loader::load("vendor", "crypt/TwoWayEncryption");
 
@@ -23,7 +24,52 @@ class AdminUserGetController extends ModelController {
 
             if (isset($user) && $user->isValid()) {
                 // retrieve account balance based on transactions
-                $user_balance = 29.99;
+                $user_balance = 0.00;
+                $user_commission = 0.00;
+                /* $Referral_Join = DBObject::collection("Referral");
+                  $Member_Join = DBObject::collection("Member");
+                  $Member_Vendor_Join = DBObject::collection("Member");
+                  $Transactions = DBObject::collection("Transaction")
+                  ->applyJoin("LEFT OUTER", $Referral_Join, array("ReferralID", "AutoID"))
+                  ->applyJoin("LEFT OUTER", $Member_Join, array("UserID", "AutoID"))
+                  ->applyJoin("LEFT OUTER", $Member_Vendor_Join, array("VendorID", "AutoID"))
+                  ->applyUserIDFilter($user->getID());
+                  Debugger::log(Var_Dump::display($Transactions->getTransactions(), true));
+                 */
+
+                $q = "SELECT
+				t.`amount`,
+				r.*,
+				CONCAT(user.`userFirstname`, CONCAT(' ',user.`userLastname`)) as _from,
+				CONCAT(vendor.`userFirstname`, CONCAT(' ',vendor.`userLastname`)) as _to
+			FROM  `transactions` t
+
+			LEFT OUTER JOIN `referrals` r
+				ON (t.`ReferralID` = r.`AutoID`)
+
+			LEFT OUTER JOIN `user_signup` user
+				ON (r.`UserID` = user.`AutoID`)
+
+			LEFT OUTER JOIN `user_signup` vendor
+				ON (r.`VendorID` = vendor.`AutoID`)
+
+			WHERE t.`UserID` ='" . $user->getID() . "'";
+                $user_transactions = DatabaseFactory::passinggreen_db()->query($q);
+                Debugger::log(Var_Dump::display($user_transactions, true));
+
+                while ($user_transactions_row = $user_transactions->fetch_object()) {
+                    if ($user_transactions_row->UserID == $user->getID()) {
+                        $user_balance += $user_transactions_row->amount;
+                        //$referrals_passed[] = $row;
+                    } else if ($user_transactions_row->VendorID == $user->getID()) {
+                        $commission += $user_transactions_row->amount;
+                        //$referrals_received[] = $row;
+                    }
+
+                    #else
+                    #echo "PG.com +".$row->amount."<br>";
+                    #echo "<pre>".print_r($row, true)."</pre>";
+                }
 
                 // referrals
                 $user_referrals_passed = DBObject::collection("Referral", DBObject::CONSISTENCY_ABSOLUTE)->applyUserIDFilter($user->getID())->getReferralCount();
