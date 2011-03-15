@@ -81,7 +81,7 @@ class AdminUserGetController extends ModelController {
                 $user_crypt_key = CryptKey::findCryptKeyByUserID($user->getID());
                 if (isset($user_crypt_key) && $user_crypt_key->isValid()) {
                     Debugger::log("User crypt private key: " . $user_crypt_key->getKey());
-                    $decoded_cc_data = TwoWayEncryption::decrypt($user->getCC(), $user_crypt_key->getKey());
+                    $decoded_cc_data = unserialize(TwoWayEncryption::decrypt($user->getCC(), $user_crypt_key->getKey()));
                 } else {
                     $decoded_cc_data = null;
                 }
@@ -94,13 +94,13 @@ class AdminUserGetController extends ModelController {
                 $return->user["balance"] = number_format($user_balance, 2);
 
                 if (!is_null($decoded_cc_data)) {
-                    $return->user["ccc"] = $decoded_cc_data;
-                    $return->user["ccc_status"] = $decoded_cc_data['status'];
-                    $return->user["ccc_tcode"] = $decoded_cc_data['tcode'];
-                    $return->user["ccc_ccNum"] = $decoded_cc_data['ccNum'];
-                    $return->user["ccc_MM"] = $decoded_cc_data['ccMM'];
-                    $return->user["ccc_YY"] = $decoded_cc_data['ccYear'];
-                    $return->user["ccc_ccCode"] = $decoded_cc_data['ccCODE'];
+                    $return->user["ccc"] = $decoded_cc_data["details"];
+                    $return->user["ccc_status"] = $decoded_cc_data["status"];
+                    $return->user["ccc_tcode"] = $decoded_cc_data["tcode"];
+                    $return->user["ccc_ccNum"] = $decoded_cc_data["ccNum"];
+                    $return->user["ccc_MM"] = $decoded_cc_data["ccMonth"];
+                    $return->user["ccc_YY"] = $decoded_cc_data["ccYear"];
+                    $return->user["ccc_ccCode"] = $decoded_cc_data["ccCODE"];
                 }
 
                 $return->user["referralsPassed"] = $user_referrals_passed;

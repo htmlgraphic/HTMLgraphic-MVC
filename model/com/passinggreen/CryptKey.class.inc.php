@@ -6,9 +6,9 @@ Loader::load('model', array(
 
 class CryptKey extends DBObject {
 
-    public function __construct($mem_id = null) {
-        if (isset($mem_id)) {
-            $this->setDBValue("AutoID", $mem_id);
+    public function __construct($id = null) {
+        if (isset($id)) {
+            $this->setDBValue("AutoID", $id);
         }
     }
 

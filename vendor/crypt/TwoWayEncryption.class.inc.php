@@ -27,7 +27,7 @@ class TwoWayEncryption {
 
     //Returns an encrypted cipherstream provided plaintext and a private key.
     public static function encrypt($plainText, $privateKey) {
-        $publicKey = genPublicKey();
+        $publicKey = self::genPublicKey();
         $textArray = str_split($plainText);
 
         $shiftKeyArray = array();

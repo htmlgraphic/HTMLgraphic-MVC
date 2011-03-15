@@ -50,6 +50,9 @@ class AdminUserAddController extends ModelController {
         $user->setShipCountry($params["shipCountry"]);
         $user->setShipZip($params["shipZip"]);
 
+        // encrypt any credit card information then set the CC field
+        $user->setCC("");
+
         if ($user->save()) {
             $return->id = $user->getID();
             $return->created = true;
