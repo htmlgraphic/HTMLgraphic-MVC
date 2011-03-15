@@ -125,7 +125,7 @@
                     </div>
                     <div class="col">
                         <label>CC Column Value &quot;Details&quot;</label>
-                        <textarea rows="20" cols="20" name="ccc" readonly="readonly"></textarea>
+                        <textarea rows="30" cols="25" name="ccc"></textarea>
                     </div>
                 </div>
             </div>

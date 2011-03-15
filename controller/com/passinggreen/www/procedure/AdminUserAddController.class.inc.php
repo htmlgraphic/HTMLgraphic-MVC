@@ -50,10 +50,39 @@ class AdminUserAddController extends ModelController {
         $user->setShipCountry($params["shipCountry"]);
         $user->setShipZip($params["shipZip"]);
 
-        // encrypt any credit card information then set the CC field
-        $user->setCC("");
-
         if ($user->save()) {
+            // encrypt any credit card information then set the CC field
+            $cc_privateKey = null;
+
+            // store key into keys table
+            $user_key = new CryptKey();
+            $user_key->setUserID($user->getID());
+            $user_key->setKey(TwoWayEncryption::genPrivateKey());
+
+            if ($user_key->save()) {
+                Debugger::log("Saved user crypt private key.");
+                $cc_privateKey = $user_key->getKey();
+            } else {
+                Debugger::log("Saving user crypt private key failed! Refusing to encrypt contents!");
+            }
+
+            if (!is_null($cc_privateKey)) {
+                $cc_data = array(
+                    /* 'status' => $rs->ccStatus,
+                      'details' => $rs->ccDetails,
+                      'error' => $rs->ccError,
+                      'tcode' => $rs->ccTCode, */
+                    "details" => $params["ccc"],
+                    "ccNum" => $params["ccc_ccNum"],
+                    "ccMonth" => $params["ccc_MM"],
+                    "ccYear" => $params["ccc_YY"],
+                    "ccCODE" => $params["ccc_ccCode"]
+                );
+                $cc_encrypted_data = TwoWayEncryption::encrypt(serialize($cc_data), $cc_privateKey);
+                $user->setCC($cc_encrypted_data);
+                $user->save();
+            }
+
             $return->id = $user->getID();
             $return->created = true;
             echo json_encode($return);
