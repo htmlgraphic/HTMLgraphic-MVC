@@ -46,6 +46,7 @@ class AdminUserAddController extends ModelController {
         $user->setShipCity($params["shipCity"]);
         $user->setShipState($params["shipState"]);
         $user->setShipCountry($params["shipCountry"]);
+        $user->setShipZip($params["shipZip"]);
 
         if ($user->save()) {
             $return->id = $user->getID();

@@ -21,6 +21,9 @@ class AdminUserUpdateController extends ModelController {
             $user = new Member($params["id"]);
 
             if (isset($user) && $user->isValid()) {
+                if ($params["passwd"] != "") {
+                    $user->setPassword($params["passwd"]);
+                }
                 $user->setLevel($params["level"]);
                 $user->setIsEnabled($params["is_enabled"]);
                 $user->setUserFirstname($params["userFirstname"]);
@@ -46,6 +49,7 @@ class AdminUserUpdateController extends ModelController {
                 $user->setShipCity($params["shipCity"]);
                 $user->setShipState($params["shipState"]);
                 $user->setShipCountry($params["shipCountry"]);
+                $user->setShipZip($params["shipZip"]);
 
                 if ($user->save()) {
                     $return->id = $user->getID();

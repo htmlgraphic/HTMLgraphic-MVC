@@ -334,7 +334,7 @@ class Member extends DBObject {
     }
 
     public function setShipCity($value) {
-        $this->setDBValue("shipCity");
+        $this->setDBValue("shipCity", $value);
     }
 
     public function getShipState() {
