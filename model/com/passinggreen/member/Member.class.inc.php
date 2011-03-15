@@ -313,6 +313,18 @@ class Member extends DBObject {
         return $this->getDBValue("paymentType");
     }
 
+    public function setPaymentType($value) {
+        $this->setDBValue("paymentType", $value);
+    }
+
+    public function getPaymentTypeDetails() {
+        return $this->getDBValue("paymentTypeDetails");
+    }
+
+    public function setPaymentTypeDetails($value) {
+        $this->setDBValue("paymentTypeDetails", $value);
+    }
+
     public function getShipAddr1() {
         return $this->getDBValue("shipAddr1");
     }
@@ -344,11 +356,11 @@ class Member extends DBObject {
     public function setShipState($value) {
         $this->setDBValue("shipState", $value);
     }
-    
+
     public function getShipZip() {
         return $this->getDBValue("shipZip");
     }
-    
+
     public function setShipZip($value) {
         $this->setDBValue("shipZip", $value);
     }

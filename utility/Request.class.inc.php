@@ -49,13 +49,10 @@ class Request {
 
     static function getPost($name = null) {
         $vals = self::get($name, 'POST');
+
         if (is_array($vals)) {
             foreach ($vals as $key => $val) {
-                if (!is_array($val)) {
-                    $new[$key] = addslashes($val);
-                } else {
-                    $new[$key] = $val;
-                }
+                $new[$key] = addslashes($val);
             }
         } else {
             $new = addslashes($vals);
@@ -65,38 +62,7 @@ class Request {
 
     static function getRequest($name = null) {
         $vals = self::get($name, 'REQUEST');
-        if (is_array($vals)) {
-            foreach ($vals as $key => $val) {
-                if (!is_array($val)) {
-                    $new[$key] = addslashes($val);
-                } else {
-                    $new[$key] = $val;
-                }
-            }
-        } else {
-            $new = addslashes($vals);
-        }
-        return $new;
-    }
 
-    static function getGet($name = null) {
-        $vals = self::get($name, 'GET');
-        if (is_array($vals)) {
-            foreach ($vals as $key => $val) {
-                if (!is_array($val)) {
-                    $new[$key] = addslashes($val);
-                } else {
-                    $new[$key] = $val;
-                }
-            }
-        } else {
-            $new = addslashes($vals);
-        }
-        return $new;
-    }
-
-    static function getCookie($name = null) {
-        $vals = self::get($name, 'COOKIE');
         if (is_array($vals)) {
             foreach ($vals as $key => $val) {
                 $new[$key] = addslashes($val);
@@ -107,7 +73,32 @@ class Request {
         return $new;
     }
 
-    //not sure if we can addslashes to files
+    static function getGet($name = null) {
+        $vals = self::get($name, 'GET');
+
+        if (is_array($vals)) {
+            foreach ($vals as $key => $val) {
+                $new[$key] = addslashes($val);
+            }
+        } else {
+            $new = addslashes($vals);
+        }
+        return $new;
+    }
+
+    static function getCookie($name = null) {
+        $vals = self::get($name, 'COOKIE');
+
+        if (is_array($vals)) {
+            foreach ($vals as $key => $val) {
+                $new[$key] = addslashes($val);
+            }
+        } else {
+            $new = addslashes($vals);
+        }
+        return $new;
+    }
+
     static function getFile($name = null) {
         return self::_FILES($name);
     }
@@ -125,7 +116,6 @@ class Request {
     }
 
     static function _POST($name = null) {
-        Debugger::log(__METHOD__ . " is deprecated, use getPost() instead.");
         return self::get($name, 'POST');
     }
 
@@ -137,7 +127,7 @@ class Request {
         return self::get($name, 'FILES');
     }
 
-    function strip_only($str, $tags, $stripContent = false) {
+    private static function strip_only($str, $tags, $stripContent = false) {
         $content = '';
         if (!is_array($tags)) {
             $tags = (strpos($str, '>') !== false ? explode('>', str_replace('<', '', $tags)) : array($tags));
@@ -152,6 +142,10 @@ class Request {
             $str = preg_replace('#</?' . $tag . '[^>]*>' . $content . '#is', '', $str);
         }
         return $str;
+    }
+
+    private static function check_magic_quotes() {
+        
     }
 
 }

@@ -109,7 +109,11 @@
             <div id="new-tab-3">
                 <div class="clear">
                     <div class="col">
-                        <label>Payment Type:</label><input type="text" name="paymentType" value="" />
+                        <label>Payment Type:</label>
+                        <select name="paymentType">
+                            <option value="Not Available">Not Available</option>
+                            <option value="Credit Card">Credit Card</option>
+                        </select>
                         <label>Payment Notes:</label><input type="text" name="paymentTypeDetails" value="" />
                         <label>Payment Status:</label><input type="text" name="ccc_status"  value="" readonly="readonly" />
                         <label>Name:</label><input type="text" name="ccc_name"  value="" readonly="readonly" />

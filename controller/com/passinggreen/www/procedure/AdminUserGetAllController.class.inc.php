@@ -10,7 +10,7 @@ class AdminUserGetAllController extends ModelController {
 
     function execute() {
         $return = new stdClass;
-        $params = Request::getRequest();
+        $params = Request::_REQUEST();
 
         Config::set("HideDebugger", true);
 

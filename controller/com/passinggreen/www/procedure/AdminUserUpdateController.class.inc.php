@@ -13,7 +13,7 @@ class AdminUserUpdateController extends ModelController {
 
     function execute() {
         $return = new stdClass;
-        $params = Request::getRequest();
+        $params = Request::_REQUEST();
 
         Config::set("HideDebugger", true);
 
@@ -44,6 +44,8 @@ class AdminUserUpdateController extends ModelController {
                 $user->setUserFax($params["userFax"]);
                 $user->setSiteAreas($params["siteAreas"]);
                 $user->setUpdates($params["updates"]);
+                $user->setPaymentType($params["paymentType"]);
+                $user->setPaymentTypeDetails($params["paymentTypeDetails"]);
                 $user->setShipAddr1($params["shipAddr1"]);
                 $user->setShipAddr2($params["shipAddr2"]);
                 $user->setShipCity($params["shipCity"]);

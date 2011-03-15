@@ -8,7 +8,7 @@ class AdminLoginController extends AdminPageController {
         if (isset($_GET['destroy'])) {
             $this->logout();
             $this->redirect('/admin/');
-        } elseif (Request::getPost()) {
+        } elseif (Request::_POST()) {
             $this->login();
         } elseif (Config::get('Member')) {
             // continue to requested page
