@@ -1,4 +1,5 @@
 <?php
+
 /*
  * 	A view factory can create links to the views it manages.
  *
@@ -8,14 +9,17 @@
 
 abstract class ViewFactory
 {
-	abstract function createLinkToView($view_id);
+
+  abstract function createLinkToView($view_id);
 }
 
 abstract class ViewLink
 {
-	/*
-	 * Created the minimum link necessary to href from $link to this view link.
-	 */
-	abstract function href(ViewLink $link);
+  /*
+   * Created the minimum link necessary to href from $link to this view link.
+   */
+
+  abstract function href(ViewLink $link);
 }
+
 ?>

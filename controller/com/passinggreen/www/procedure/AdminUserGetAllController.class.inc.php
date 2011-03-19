@@ -2,70 +2,75 @@
 
 Loader::load("controller", "/controller/ModelController");
 
-class AdminUserGetAllController extends ModelController {
+class AdminUserGetAllController extends ModelController
+{
 
-    function __construct() {
-        
+  function __construct()
+  {
+    
+  }
+
+  function execute()
+  {
+    $return = new stdClass;
+    $params = Request::_REQUEST();
+
+    Config::set("HideDebugger", true);
+
+    $users = DBObject::collection("Member", DBObject::CONSISTENCY_ABSOLUTE);
+    $fullCount = $users->getMemberCount();
+
+    $users = DBObject::collection("Member", DBObject::CONSISTENCY_ABSOLUTE);
+    $users->setRange($params["iDisplayStart"], $params["iDisplayLength"]);
+
+    switch ($params["iSortCol_0"])
+    {
+      case 0:
+        $users->applySort("AutoID", $params["sSortDir_0"]);
+        break;
+      case 1:
+        $users->applySort("userFirstname", $params["sSortDir_0"]);
+        break;
+      case 2:
+        $users->applySort("userLastname", $params["sSortDir_0"]);
+        break;
+      case 3:
+        $users->applySort("useremail", $params["sSortDir_0"]);
+        break;
+      case 4:
+        $users->applySort("level", $params["sSortDir_0"]);
+        break;
+      case 5:
+        $users->applySort("is_enabled", $params["sSortDir_0"]);
+        break;
     }
 
-    function execute() {
-        $return = new stdClass;
-        $params = Request::_REQUEST();
+    $return = array(
+        "sEcho" => $params["sEcho"],
+        "iTotalRecords" => $fullCount,
+        "iTotalDisplayRecords" => $fullCount,
+        "aaData" => array()
+    );
 
-        Config::set("HideDebugger", true);
+    foreach ($users->getMembers() as $_user)
+    {
+      $row = array();
 
-        $users = DBObject::collection("Member", DBObject::CONSISTENCY_ABSOLUTE);
-        $fullCount = $users->getMemberCount();
+      $row[] = $_user->getID();
+      $row[] = $_user->getUserFirstname();
+      $row[] = $_user->getUserLastname();
+      $row[] = $_user->getUserEmail();
+      $row[] = $_user->getLevel();
+      $row[] = $_user->getIsEnabled();
+      $row[] = $_user->getLastLogin();
+      $row[] = "<a onclick=\"editUser(this, '" . $_user->getID() . "');\"><span class=\"ui-icon ui-icon-wrench\"></span></a><a onclick=\"deleteUser(this, '" . $_user->getID() . "');\"><span class=\"ui-icon ui-icon-trash\"></span></a>";
 
-        $users = DBObject::collection("Member", DBObject::CONSISTENCY_ABSOLUTE);
-        $users->setRange($params["iDisplayStart"], $params["iDisplayLength"]);
-
-        switch ($params["iSortCol_0"]) {
-            case 0:
-                $users->applySort("AutoID", $params["sSortDir_0"]);
-                break;
-            case 1:
-                $users->applySort("userFirstname", $params["sSortDir_0"]);
-                break;
-            case 2:
-                $users->applySort("userLastname", $params["sSortDir_0"]);
-                break;
-            case 3:
-                $users->applySort("useremail", $params["sSortDir_0"]);
-                break;
-            case 4:
-                $users->applySort("level", $params["sSortDir_0"]);
-                break;
-            case 5:
-                $users->applySort("is_enabled", $params["sSortDir_0"]);
-                break;
-        }
-
-        $return = array(
-            "sEcho" => $params["sEcho"],
-            "iTotalRecords" => $fullCount,
-            "iTotalDisplayRecords" => $fullCount,
-            "aaData" => array()
-        );
-
-        foreach ($users->getMembers() as $_user) {
-            $row = array();
-
-            $row[] = $_user->getID();
-            $row[] = $_user->getUserFirstname();
-            $row[] = $_user->getUserLastname();
-            $row[] = $_user->getUserEmail();
-            $row[] = $_user->getLevel();
-            $row[] = $_user->getIsEnabled();
-            $row[] = $_user->getLastLogin();
-            $row[] = "<a onclick=\"editUser(this, '" . $_user->getID() . "');\"><span class=\"ui-icon ui-icon-wrench\"></span></a><a onclick=\"deleteUser(this, '" . $_user->getID() . "');\"><span class=\"ui-icon ui-icon-trash\"></span></a>";
-
-            $return["aaData"][] = $row;
-        }
-
-        echo json_encode($return);
-        return;
+      $return["aaData"][] = $row;
     }
+
+    echo json_encode($return);
+    return;
+  }
 
 }
 

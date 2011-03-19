@@ -4,149 +4,195 @@
  * Use this to get request variables ($_POST, $_GET)
  */
 
-class Request {
+class Request
+{
 
-    private static $data;
+  private static $data;
 
-    static function get($name = null, $type = 'REQUEST') {
-        if (!isset(self::$data)) {
-            // I've experienced empty $_GET var for some reason so I'm populating
-            // it here. -c4
-            $GET = substr(strstr($_SERVER['REQUEST_URI'], '?'), 1);
-            parse_str($GET, $_GET);
+  static function get($name = null, $type = 'REQUEST')
+  {
+    if (!isset(self::$data))
+    {
+      // I've experienced empty $_GET var for some reason so I'm populating
+      // it here. -c4
+      $GET = substr(strstr($_SERVER['REQUEST_URI'], '?'), 1);
+      parse_str($GET, $_GET);
 
-            self::$data = array(
-                'REQUEST' => array_merge($_GET, $_POST, $_COOKIE),
-                'GET' => $_GET,
-                'POST' => $_POST,
-                'COOKIE' => $_COOKIE,
-                'FILES' => $_FILES
-            );
+      self::$data = array(
+          'REQUEST' => array_merge($_GET, $_POST, $_COOKIE),
+          'GET' => $_GET,
+          'POST' => $_POST,
+          'COOKIE' => $_COOKIE,
+          'FILES' => $_FILES
+      );
 
-            foreach (self::$data as $key => &$val) {
-                foreach ($val as $k => &$v) {
-                    if (($key == "REQUEST" || $key == "GET") && is_string($v) && (substr_count($v, "script") > 0 && substr_count($v, "/script") > 0)) {
-                        $clean = self::strip_only($v, array("script"), true);
+      foreach (self::$data as $key => &$val)
+      {
+        foreach ($val as $k => &$v)
+        {
+          if (($key == "REQUEST" || $key == "GET") && is_string($v) && (substr_count($v, "script") > 0 && substr_count($v, "/script") > 0))
+          {
+            $clean = self::strip_only($v, array("script"), true);
 
-                        if (strlen($v) <> strlen($clean)) {
-                            $v = $clean;
-                        }
-                    }
-                }
+            if (strlen($v) <> strlen($clean))
+            {
+              $v = $clean;
             }
+          }
         }
-
-        if (!isset($name)) {
-            return self::$data[$type];
-        } else {
-            if (isset(self::$data[$type][$name])) {
-                return self::$data[$type][$name];
-            } else {
-                return null;
-            }
-        }
+      }
     }
 
-    static function getPost($name = null) {
-        $vals = self::get($name, 'POST');
-
-        if (is_array($vals)) {
-            foreach ($vals as $key => $val) {
-                $new[$key] = addslashes($val);
-            }
-        } else {
-            $new = addslashes($vals);
-        }
-        return isset($new) ? $new : null;
+    if (!isset($name))
+    {
+      return self::$data[$type];
     }
-
-    static function getRequest($name = null) {
-        $vals = self::get($name, 'REQUEST');
-
-        if (is_array($vals)) {
-            foreach ($vals as $key => $val) {
-                $new[$key] = addslashes($val);
-            }
-        } else {
-            $new = addslashes($vals);
-        }
-        return $new;
+    else
+    {
+      if (isset(self::$data[$type][$name]))
+      {
+        return self::$data[$type][$name];
+      }
+      else
+      {
+        return null;
+      }
     }
+  }
 
-    static function getGet($name = null) {
-        $vals = self::get($name, 'GET');
+  static function getPost($name = null)
+  {
+    $vals = self::get($name, 'POST');
 
-        if (is_array($vals)) {
-            foreach ($vals as $key => $val) {
-                $new[$key] = addslashes($val);
-            }
-        } else {
-            $new = addslashes($vals);
-        }
-        return $new;
+    if (is_array($vals))
+    {
+      foreach ($vals as $key => $val)
+      {
+        $new[$key] = addslashes($val);
+      }
     }
-
-    static function getCookie($name = null) {
-        $vals = self::get($name, 'COOKIE');
-
-        if (is_array($vals)) {
-            foreach ($vals as $key => $val) {
-                $new[$key] = addslashes($val);
-            }
-        } else {
-            $new = addslashes($vals);
-        }
-        return $new;
+    else
+    {
+      $new = addslashes($vals);
     }
+    return isset($new) ? $new : null;
+  }
 
-    static function getFile($name = null) {
-        return self::_FILES($name);
-    }
+  static function getRequest($name = null)
+  {
+    $vals = self::get($name, 'REQUEST');
 
-    static function clean($name, $type = 'REQUEST') {
-        return self::get($name, $type);
+    if (is_array($vals))
+    {
+      foreach ($vals as $key => $val)
+      {
+        $new[$key] = addslashes($val);
+      }
     }
+    else
+    {
+      $new = addslashes($vals);
+    }
+    return $new;
+  }
 
-    static function _GET($name = null) {
-        return self::get($name, 'GET');
-    }
+  static function getGet($name = null)
+  {
+    $vals = self::get($name, 'GET');
 
-    static function _REQUEST($name = null) {
-        return self::get($name, 'REQUEST');
+    if (is_array($vals))
+    {
+      foreach ($vals as $key => $val)
+      {
+        $new[$key] = addslashes($val);
+      }
     }
+    else
+    {
+      $new = addslashes($vals);
+    }
+    return $new;
+  }
 
-    static function _POST($name = null) {
-        return self::get($name, 'POST');
-    }
+  static function getCookie($name = null)
+  {
+    $vals = self::get($name, 'COOKIE');
 
-    static function _COOKIE($name = null) {
-        return self::get($name, 'COOKIE');
+    if (is_array($vals))
+    {
+      foreach ($vals as $key => $val)
+      {
+        $new[$key] = addslashes($val);
+      }
     }
+    else
+    {
+      $new = addslashes($vals);
+    }
+    return $new;
+  }
 
-    static function _FILES($name = null) {
-        return self::get($name, 'FILES');
-    }
+  static function getFile($name = null)
+  {
+    return self::_FILES($name);
+  }
 
-    private static function strip_only($str, $tags, $stripContent = false) {
-        $content = '';
-        if (!is_array($tags)) {
-            $tags = (strpos($str, '>') !== false ? explode('>', str_replace('<', '', $tags)) : array($tags));
-            if (end($tags) == '') {
-                array_pop($tags);
-            }
-        }
-        foreach ($tags as $tag) {
-            if ($stripContent) {
-                $content = '(.+</' . $tag . '[^>]*>|)';
-            }
-            $str = preg_replace('#</?' . $tag . '[^>]*>' . $content . '#is', '', $str);
-        }
-        return $str;
-    }
+  static function clean($name, $type = 'REQUEST')
+  {
+    return self::get($name, $type);
+  }
 
-    private static function check_magic_quotes() {
-        
+  static function _GET($name = null)
+  {
+    return self::get($name, 'GET');
+  }
+
+  static function _REQUEST($name = null)
+  {
+    return self::get($name, 'REQUEST');
+  }
+
+  static function _POST($name = null)
+  {
+    return self::get($name, 'POST');
+  }
+
+  static function _COOKIE($name = null)
+  {
+    return self::get($name, 'COOKIE');
+  }
+
+  static function _FILES($name = null)
+  {
+    return self::get($name, 'FILES');
+  }
+
+  private static function strip_only($str, $tags, $stripContent = false)
+  {
+    $content = '';
+    if (!is_array($tags))
+    {
+      $tags = (strpos($str, '>') !== false ? explode('>', str_replace('<', '', $tags)) : array($tags));
+      if (end($tags) == '')
+      {
+        array_pop($tags);
+      }
     }
+    foreach ($tags as $tag)
+    {
+      if ($stripContent)
+      {
+        $content = '(.+</' . $tag . '[^>]*>|)';
+      }
+      $str = preg_replace('#</?' . $tag . '[^>]*>' . $content . '#is', '', $str);
+    }
+    return $str;
+  }
+
+  private static function check_magic_quotes()
+  {
+    
+  }
 
 }
 

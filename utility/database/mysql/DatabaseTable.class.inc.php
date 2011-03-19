@@ -1,93 +1,96 @@
 <?php
+
 class DatabaseTable
 {
-	function __construct(Database $connection, $table_name, $database)
-	{
-		$this->connection = $connection;
-		$this->table = $table_name;
-		$this->database = $database;
-	}
 
-	private function get_column_info()
-	{
-		if (!isset($this->columns))
-		{
-			$columns = array();
+  function __construct(Database $connection, $table_name, $database)
+  {
+    $this->connection = $connection;
+    $this->table = $table_name;
+    $this->database = $database;
+  }
 
-			$sql = "SHOW COLUMNS FROM `{$this->database}`.`{$this->table}`";
-			$results = $this->connection->query($sql);
+  private function get_column_info()
+  {
+    if (!isset($this->columns))
+    {
+      $columns = array();
 
-			$fields = array();
-			while ($column_info = $results->fetch_object())
-			{
+      $sql = "SHOW COLUMNS FROM `{$this->database}`.`{$this->table}`";
+      $results = $this->connection->query($sql);
 
-				$column = new stdclass();
-				$column->name = $column_info->Field;
-				$column->type = $column_info->Type;
-				$column->nullable = $column_info->Null;
-				if (strlen($column_info->Key))
-					$column->key = $column_info->Key;
-				$column->default_value = $column_info->Default;
-				$column->extra = $column_info->Extra;
+      $fields = array();
+      while ($column_info = $results->fetch_object())
+      {
 
-				$columns[$column->name] = $column;
-			}
+        $column = new stdclass();
+        $column->name = $column_info->Field;
+        $column->type = $column_info->Type;
+        $column->nullable = $column_info->Null;
+        if (strlen($column_info->Key))
+          $column->key = $column_info->Key;
+        $column->default_value = $column_info->Default;
+        $column->extra = $column_info->Extra;
 
-			$this->columns = $columns;
-		}
+        $columns[$column->name] = $column;
+      }
 
-		return $this->columns;
-	}
+      $this->columns = $columns;
+    }
 
-	private function get_index_info()
-	{
-		if (!isset($this->indexes))
-		{
-			$indexes = array();
+    return $this->columns;
+  }
 
-			$sql = "SHOW INDEXES FROM `{$this->database}`.`{$this->table}`";
-			$results = $this->connection->query($sql);
+  private function get_index_info()
+  {
+    if (!isset($this->indexes))
+    {
+      $indexes = array();
 
-			while ($index_info = $results->fetch_object())
-			{
-				$indexes[] = $index_info;
-			}
-			$this->indexes = $indexes;
-		}
+      $sql = "SHOW INDEXES FROM `{$this->database}`.`{$this->table}`";
+      $results = $this->connection->query($sql);
 
-		return $this->indexes;
-	}
+      while ($index_info = $results->fetch_object())
+      {
+        $indexes[] = $index_info;
+      }
+      $this->indexes = $indexes;
+    }
 
-	function getColumns()
-	{
-		return array_keys($this->get_column_info());
-	}
+    return $this->indexes;
+  }
 
-	function getPrimaryColumns()
-	{
-		$primaries = array();
-		foreach ($this->get_column_info() as $name => $column_info)
-		{
-			if (isset($column_info->key) && $column_info->key == "PRI")
-				$primaries[] = $name;
-		}
+  function getColumns()
+  {
+    return array_keys($this->get_column_info());
+  }
 
-		return $primaries;
-	}
+  function getPrimaryColumns()
+  {
+    $primaries = array();
+    foreach ($this->get_column_info() as $name => $column_info)
+    {
+      if (isset($column_info->key) && $column_info->key == "PRI")
+        $primaries[] = $name;
+    }
 
-	function getIndexedColumns()
-	{
-		$indexes = $this->get_index_info();
-		$columns = array();
+    return $primaries;
+  }
 
-		foreach ($this->get_index_info() as $index_info)
-		{
-			if ($index_info->Table == $this->table && $index_info->Seq_in_index == 1)
-				$columns[] = $index_info->Column_name;
-		}
+  function getIndexedColumns()
+  {
+    $indexes = $this->get_index_info();
+    $columns = array();
 
-		return $columns;
-	}
+    foreach ($this->get_index_info() as $index_info)
+    {
+      if ($index_info->Table == $this->table && $index_info->Seq_in_index == 1)
+        $columns[] = $index_info->Column_name;
+    }
+
+    return $columns;
+  }
 
 }
+
 ?>

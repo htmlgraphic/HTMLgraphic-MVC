@@ -1,78 +1,82 @@
 <?php
+
 Loader::load("utility", "response/MessageLogger");
 
 abstract class Mutator
 {
-	function __construct()
-	{
-		
-	}
 
-	abstract protected function execute();
-	protected final function aborting($reason=null)
-	{
-		$this->abortTransaction($reason);
-	}
+  function __construct()
+  {
+    
+  }
 
-	private $success_data;
+  abstract protected function execute();
 
-	final function setData($data)
-	{
-		$this->success_data = $data;
-	}
+  protected final function aborting($reason=null)
+  {
+    $this->abortTransaction($reason);
+  }
 
-	final function logUserMessage($message, $type = "msg")
-	{
-		MessageLogger::log($message, $type);
-	}
+  private $success_data;
 
-	public final function activate()
-	{
-		if ($this->execute() === false)
-			return;
-		else
-			return $this->success_data;
-	}
+  final function setData($data)
+  {
+    $this->success_data = $data;
+  }
 
-	private $failed_msg;
-	private $failed = false;
+  final function logUserMessage($message, $type = "msg")
+  {
+    MessageLogger::log($message, $type);
+  }
 
-	final protected function setFailedMessage($msg)
-	{
-		$this->failed = true;
-		if (isset($msg))
-			$this->failed_msg = $msg;
-	}
+  public final function activate()
+  {
+    if ($this->execute() === false)
+      return;
+    else
+      return $this->success_data;
+  }
 
-	function getTransactionsForDelete()
-	{
-		return null;
-	}
+  private $failed_msg;
+  private $failed = false;
 
-	function getMessagesForDelete()
-	{
-		return null;
-	}
+  final protected function setFailedMessage($msg)
+  {
+    $this->failed = true;
+    if (isset($msg))
+      $this->failed_msg = $msg;
+  }
 
-	function getEmailsForDelete()
-	{
-		return null;
-	}
+  function getTransactionsForDelete()
+  {
+    return null;
+  }
 
-	function getTransactionsForChanges($insert = false)
-	{
-		return null;
-	}
+  function getMessagesForDelete()
+  {
+    return null;
+  }
 
-	function getMessagesForChanges($insert = false)
-	{
-		return null;
-	}
+  function getEmailsForDelete()
+  {
+    return null;
+  }
 
-	function getEmailsForChanges($insert = false)
-	{
-		return null;
-	}
+  function getTransactionsForChanges($insert = false)
+  {
+    return null;
+  }
+
+  function getMessagesForChanges($insert = false)
+  {
+    return null;
+  }
+
+  function getEmailsForChanges($insert = false)
+  {
+    return null;
+  }
 
 }
+
 ?>

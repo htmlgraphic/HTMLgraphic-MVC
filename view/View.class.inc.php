@@ -7,14 +7,20 @@
 
 interface RSSView
 {
-	function getRSSLink();
-	function getRSSName();
+
+  function getRSSLink();
+
+  function getRSSName();
 }
+
 interface Printable
 {
-	function setPrintMode($bool);
-	function getPrintMode();
+
+  function setPrintMode($bool);
+
+  function getPrintMode();
 }
+
 /*
  * Displays a view.
  *
@@ -30,107 +36,115 @@ interface Printable
 abstract class View implements RSSView
 {
 
-	protected $unique_id = 0;
+  protected $unique_id = 0;
 
-	function getID()
-	{
-		return $this->unique_id;
-	}
+  function getID()
+  {
+    return $this->unique_id;
+  }
 
-	function canDisplay()
-	{
-		return true;
-	}
+  function canDisplay()
+  {
+    return true;
+  }
 
-	abstract function getAlternativeView();
-	function willDisplay()
-	{
-		
-	}
+  abstract function getAlternativeView();
 
-	function didDisplay()
-	{
+  function willDisplay()
+  {
+    
+  }
 
-	}
+  function didDisplay()
+  {
+    
+  }
 
-	function getRSSLink()
-	{
-		
-	}
+  function getRSSLink()
+  {
+    
+  }
 
-	function getRSSName()
-	{
+  function getRSSName()
+  {
+    
+  }
 
-	}
+  function allowsAds()
+  {
+    return true;
+  }
 
-	function allowsAds()
-	{
-		return true;
-	}
+  /*
+   * The <head> of an html page.
+   *
+   */
 
-	/*
-	 * The <head> of an html page.
-	 *
-	 */
-	abstract function getHead();
+  abstract function getHead();
 
 
-	/*
-	 *
-	 * The top border of a page.
-	 */
-	abstract function getTop();
+  /*
+   *
+   * The top border of a page.
+   */
 
-	/*
-	 * The left border of a page.
-	 *
-	 */
-	abstract function getLeft();
+  abstract function getTop();
 
-	/*
-	 * The right border of a page.
-	 *
-	 */
-	abstract function getRight();
+  /*
+   * The left border of a page.
+   *
+   */
 
-	/*
-	 * The bottom of the page.
-	 */
-	abstract function getBottom();
+  abstract function getLeft();
 
-	/*
-	 * The center content of a page. Should be unique for each page.
-	 *
-	 */
-	abstract function getCenter();
-	function getDocType()
-	{
-		return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">";
-		//	return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
-	}
+  /*
+   * The right border of a page.
+   *
+   */
 
-	function display()
-	{
-		if ($this->canDisplay())
-		{
-			$this->willDisplay();
-			echo $this->getDocType() . "\n";
-?><html><?
-			$this->getHead();
-?><body><?
-			$this->getTop();
-			$this->getLeft();
-			$this->getCenter();
-			$this->getRight();
-			$this->getBottom();
-?></body></html><?
-			$this->didDisplay();
-		}
-		else
-		{
-			$this->getAlternativeView()->display();
-		}
-	}
+  abstract function getRight();
+
+  /*
+   * The bottom of the page.
+   */
+
+  abstract function getBottom();
+
+  /*
+   * The center content of a page. Should be unique for each page.
+   *
+   */
+
+  abstract function getCenter();
+
+  function getDocType()
+  {
+    return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">";
+    //	return "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
+  }
+
+  function display()
+  {
+    if ($this->canDisplay())
+    {
+      $this->willDisplay();
+      echo $this->getDocType() . "\n";
+      ?><html><?
+      $this->getHead();
+      ?><body><?
+      $this->getTop();
+      $this->getLeft();
+      $this->getCenter();
+      $this->getRight();
+      $this->getBottom();
+      ?></body></html><?
+      $this->didDisplay();
+    }
+    else
+    {
+      $this->getAlternativeView()->display();
+    }
+  }
 
 }
 ?>

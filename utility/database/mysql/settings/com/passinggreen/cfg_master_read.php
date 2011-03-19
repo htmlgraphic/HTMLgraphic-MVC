@@ -1,4 +1,5 @@
 <?php
+
 $settings['host'] = 'localhost';
 $settings['username'] = 'passinggreen';
 $settings['passwd'] = 'referhinmone';

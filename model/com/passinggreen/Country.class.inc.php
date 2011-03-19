@@ -4,63 +4,78 @@ Loader::load('model', array(
             "DBObject"
         ));
 
-class Country extends DBObject {
+class Country extends DBObject
+{
 
-    public function __construct($mem_id = null) {
-        if (isset($mem_id)) {
-            $this->setDBValue("autoid", $mem_id);
-        }
+  public function __construct($mem_id = null)
+  {
+    if (isset($mem_id))
+    {
+      $this->setDBValue("autoid", $mem_id);
     }
+  }
 
-    public function can_load() {
-        $id = $this->getDBValue("autoid");
+  public function can_load()
+  {
+    $id = $this->getDBValue("autoid");
 
-        return isset($id);
-    }
+    return isset($id);
+  }
 
-    static function primary_key() {
-        return "autoid";
-    }
+  static function primary_key()
+  {
+    return "autoid";
+  }
 
-    protected function db() {
-        return DatabaseFactory::passinggreen_db();
-    }
+  protected function db()
+  {
+    return DatabaseFactory::passinggreen_db();
+  }
 
-    protected function master_db() {
-        return DatabaseFactory::passinggreen_master_db();
-    }
+  protected function master_db()
+  {
+    return DatabaseFactory::passinggreen_master_db();
+  }
 
-    protected function table() {
-        return "countries";
-    }
+  protected function table()
+  {
+    return "countries";
+  }
 
-    protected function where_clause() {
-        return "`autoid` = '{$this->getDBValue('autoid')}'";
-    }
+  protected function where_clause()
+  {
+    return "`autoid` = '{$this->getDBValue('autoid')}'";
+  }
 
-    public function getID() {
-        return $this->getDBValue($this->primary_key());
-    }
+  public function getID()
+  {
+    return $this->getDBValue($this->primary_key());
+  }
 
-    public function __toString() {
-        return "Country: {$this->getID()}";
-    }
+  public function __toString()
+  {
+    return "Country: {$this->getID()}";
+  }
 
-    public function getCountry() {
-        return $this->getDBValue("country");
-    }
+  public function getCountry()
+  {
+    return $this->getDBValue("country");
+  }
 
-    function setCategory($value) {
-        $this->setDBValue("country", $value);
-    }
+  function setCategory($value)
+  {
+    $this->setDBValue("country", $value);
+  }
 
-    public static function symbolFilter($symbol) {
-        return array("column" => "symbol", "value" => $symbol);
-    }
+  public static function symbolFilter($symbol)
+  {
+    return array("column" => "symbol", "value" => $symbol);
+  }
 
-    public static function showFilter($show) {
-        return array("column" => "show", "value" => ($show) ? "yes" : "no");
-    }
+  public static function showFilter($show)
+  {
+    return array("column" => "show", "value" => ($show) ? "yes" : "no");
+  }
 
 }
 
