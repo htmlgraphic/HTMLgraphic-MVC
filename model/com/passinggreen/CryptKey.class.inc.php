@@ -11,20 +11,20 @@ class CryptKey extends DBObject
   {
     if (isset($id))
     {
-      $this->setDBValue("AutoID", $id);
+      $this->setDBValue("UserID", $id);
     }
   }
 
   public function can_load()
   {
-    $id = $this->getDBValue("AutoID");
+    $id = $this->getDBValue("UserID");
 
     return isset($id);
   }
 
   static function primary_key()
   {
-    return "AutoID";
+    return "UserID";
   }
 
   protected function db()
@@ -44,7 +44,7 @@ class CryptKey extends DBObject
 
   protected function where_clause()
   {
-    return "`AutoID` = '{$this->getDBValue('AutoID')}'";
+    return "`UserID` = '{$this->getDBValue('UserID')}'";
   }
 
   public function getID()
@@ -61,9 +61,9 @@ class CryptKey extends DBObject
   {
     $id = (int)$id;
 
-    $sql = "SELECT `AutoID` , `UserID` FROM `keys`";
+    $sql = "SELECT `UserID` FROM `keys`";
 
-    if ($id || $email || $author)
+    if ($id)
     {
       $sql .= " WHERE";
     }
@@ -85,7 +85,7 @@ class CryptKey extends DBObject
       {
         $crypt_key = $res->fetch_object();
 
-        return new self($crypt_key->AutoID);
+        return new self($crypt_key->UserID);
       }
       else
         return null;
