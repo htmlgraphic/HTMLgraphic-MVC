@@ -13,23 +13,23 @@
       <div id="new-tab-1">
         <div class="clear">
           <div class="col">
-            <label>First Name:</label><input type="text" name="userFirstname" class="required" value="" />
-            <label>Last Name:</label><input type="text" name="userLastname" class="required" value="" />
+            <label>First Name:</label><input type="text" name="userFirstname" class="" value="" />
+            <label>Last Name:</label><input type="text" name="userLastname" class="" value="" />
             <label>Email Address:</label><input type="text" name="useremail" class="required email" value="" />
-            <label>Phone:</label><input type="text" name="userPhone" class="required" value="" />
-            <label>Address:</label><input type="text" name="shipAddr1" class="required" value="" /><br />
+            <label>Phone:</label><input type="text" name="userPhone" class="" value="" />
+            <label>Address:</label><input type="text" name="shipAddr1" class="" value="" /><br />
             <input type="text" name="shipAddr2" value="" />
-            <label>City:</label><input type="text" name="shipCity" class="required" value="" />
+            <label>City:</label><input type="text" name="shipCity" class="" value="" />
             <label>State:</label>
-            <select name="shipState" class="required">
+            <select name="shipState" class="">
               <option value="">--Select--</option>
               <?php foreach ($provinces as $province) : ?>
                 <option value="<?= $province->getID() ?>"><?= $province->getProvince() ?></option>
               <?php endforeach; ?>
             </select>
-            <label>ZIP:</label><input type="text" name="shipZip" class="required" value="" />
+            <label>ZIP:</label><input type="text" name="shipZip" class="" value="" />
             <label>Country:</label>
-            <select name="shipCountry" class="required">
+            <select name="shipCountry" class="">
               <option value="">--Select--</option>
               <?php foreach ($countries as $country) : ?>
                 <option value="<?= $country->getID() ?>"><?= $country->getCountry() ?></option>
@@ -38,7 +38,7 @@
           </div>
           <div class="col">
             <label>Status:</label>
-            <select name="is_enabled" class="required">
+            <select name="is_enabled" class="">
               <option value="yes">Enabled</option>
               <option value="no">Disabled</option>
             </select>
@@ -63,26 +63,26 @@
       <div id="new-tab-2">
         <div class="clear">
           <div class="col">
-            <label>Company Name:</label><input type="text" name="userCompany" class="required" value="" />
-            <label>Address 1:</label><input type="text" name="userAddr1" class="required" value="" />
+            <label>Company Name:</label><input type="text" name="userCompany" class="" value="" />
+            <label>Address 1:</label><input type="text" name="userAddr1" class="" value="" />
             <label>Address 2:</label><input type="text" name="userAddr2" value="" />
-            <label>City:</label><input type="text" name="userCity" class="required" value="" />
+            <label>City:</label><input type="text" name="userCity" class="" value="" />
             <label>State:</label>
-            <select name="userState" class="required">
+            <select name="userState" class="">
               <option value="">--Select--</option>
               <?php foreach ($provinces as $province) : ?>
                 <option value="<?= $province->getID() ?>"><?= $province->getProvince() ?></option>
               <?php endforeach; ?>
             </select>
-            <label>ZIP:</label><input type="text" name="userZip" class="required" value="" />
+            <label>ZIP:</label><input type="text" name="userZip" class="" value="" />
             <label>Country:</label>
-            <select name="userCountry" class="required">
+            <select name="userCountry" class="">
               <option value="">--Select--</option>
               <?php foreach ($countries as $country) : ?>
                 <option value="<?= $country->getID() ?>"><?= $country->getCountry() ?></option>
               <?php endforeach; ?>
             </select>
-            <label>Phone:</label><input type="text" name="userAltPhone" class="required" value="" />
+            <label>Phone:</label><input type="text" name="userAltPhone" class="" value="" />
             <label>Fax:</label><input type="text" name="userFax" value="" />
           </div>
           <div class="col">
