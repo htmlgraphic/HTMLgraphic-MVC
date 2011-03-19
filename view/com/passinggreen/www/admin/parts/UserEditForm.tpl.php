@@ -116,7 +116,7 @@
             </select>
             <label>Payment Notes:</label><input type="text" name="paymentTypeDetails" value="" />
             <label>Payment Status:</label><input type="text" name="ccc_status"  value="" readonly="readonly" />
-            <label>Name:</label><input type="text" name="ccc_name"  value="" readonly="readonly" />
+            <label>Name:</label><input type="text" name="ccc_name"  value="" />
             <label>Credit Card Status:</label><input type="text" name="ccc_tcode" value="" readonly="readonly" />
             <label>Credit Card:</label><input type="text" name="ccc_ccNum" class="creditcard" value="" />
             <label>Month:</label><input type="text" name="ccc_MM" class="digits" value="" />
@@ -125,7 +125,8 @@
           </div>
           <div class="col">
             <label>CC Column Value &quot;Details&quot;</label>
-            <textarea rows="30" cols="25" name="ccc"></textarea>
+            <!--<textarea rows="30" cols="25" name="ccc"></textarea>-->
+            <div id="ccc"></div>
           </div>
         </div>
       </div>

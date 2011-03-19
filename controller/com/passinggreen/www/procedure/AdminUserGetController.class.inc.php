@@ -110,9 +110,10 @@ class AdminUserGetController extends ModelController
           $return->user["ccc"] = $decoded_cc_data["details"];
           $return->user["ccc_status"] = $decoded_cc_data["status"];
           $return->user["ccc_tcode"] = $decoded_cc_data["tcode"];
+          $return->user["ccc_name"] = $decoded_cc_data["name"];
           $return->user["ccc_ccNum"] = $decoded_cc_data["ccNum"];
-          $return->user["ccc_MM"] = $decoded_cc_data["ccMonth"];
-          $return->user["ccc_YY"] = $decoded_cc_data["ccYear"];
+          $return->user["ccc_MM"] = $decoded_cc_data["MM"];
+          $return->user["ccc_YY"] = $decoded_cc_data["YY"];
           $return->user["ccc_ccCode"] = $decoded_cc_data["ccCODE"];
         }
 

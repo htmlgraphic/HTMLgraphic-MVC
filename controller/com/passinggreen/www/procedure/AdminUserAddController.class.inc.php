@@ -76,16 +76,20 @@ class AdminUserAddController extends ModelController
 
       if (!is_null($cc_privateKey))
       {
-        $cc_data = array(
+        $cc_data = unserialize(TwoWayEncryption::decrypt($user->getCC(), $cc_privateKey));
+        $cc_data = array_merge(
+                $cc_data, array(
             /* 'status' => $rs->ccStatus,
               'details' => $rs->ccDetails,
               'error' => $rs->ccError,
-              'tcode' => $rs->ccTCode, */
-            "details" => $params["ccc"],
+              'tcode' => $rs->ccTCode, 
+            "details" => $params["ccc"], */
+            "name" => $params["ccc_name"],
             "ccNum" => $params["ccc_ccNum"],
-            "ccMonth" => $params["ccc_MM"],
-            "ccYear" => $params["ccc_YY"],
+            "MM" => $params["ccc_MM"],
+            "YY" => $params["ccc_YY"],
             "ccCODE" => $params["ccc_ccCode"]
+                )
         );
         $cc_encrypted_data = TwoWayEncryption::encrypt(serialize($cc_data), $cc_privateKey);
         $user->setCC($cc_encrypted_data);
